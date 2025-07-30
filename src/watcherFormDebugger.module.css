@@ -1,11 +1,12 @@
-.root {
+.watcherFormDebugger {
   --border-color: #845ef7;
-  --background-color: #5f3dc4;
+  --background-color: linear-gradient(to top, #5f3dc4, #6741d9);
   --handle-hover-color: #d0bfff;
   --border-width: 5px;
   --font-color: white;
   --opacity: 0.95;
   --font-size: 12px;
+  --spacing: 8px; 
 
   position: fixed;
   bottom: 0;
@@ -51,7 +52,8 @@
 }
 
 .scrollArea {
-  padding: var(--mantine-spacing-sm);
+  padding: var(--spacing);
+  margin: 0;
   height: 100%;
   overflow: auto;
 }

@@ -34,6 +34,7 @@ export const WatcherFormDebugger = () => {
     persistSettings({ height: latestHeight.current });
 
     isDragging.current = false;
+
     document.removeEventListener('mousemove', handleMouseMove);
     document.removeEventListener('mouseup', handleMouseUp);
   }, []);
@@ -63,6 +64,7 @@ export const WatcherFormDebugger = () => {
     }
   }, []);
 
+  // listen for the <ctrl> + </> key combo
   React.useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
 
@@ -89,29 +91,23 @@ export const WatcherFormDebugger = () => {
 
   return (
     <div
-      style={{ height: latestHeight.current }}
-      className={classes.root}
+      className={classes.watcherFormDebugger}
       ref={containerRef}
+      style={{ height: latestHeight.current }}
     >
       <div className={classes.handle} onMouseDown={handleMouseDown} />
       <div className={classes.group}>
-        <>
-          <div className={classes.box}>
-            <div className={classes.scrollArea}>
-              <pre>form.values: {prettyValues}</pre>
-            </div>
-          </div>
-          <div className={classes.box}>
-            <div className={classes.scrollArea}>
-              <pre>form.changes: {prettyChanges}</pre>
-            </div>
-          </div>
-          <div className={classes.box}>
-            <div className={classes.scrollArea}>
-              <pre>form.errors: {prettyErrors}</pre>
-            </div>
-          </div>
-        </>
+        <div className={classes.box}>
+          <pre className={classes.scrollArea}>form.values: {prettyValues}</pre>
+        </div>
+        <div className={classes.box}>
+          <pre className={classes.scrollArea}>
+            form.changes: {prettyChanges}
+          </pre>
+        </div>
+        <div className={classes.box}>
+          <pre className={classes.scrollArea}>form.errors: {prettyErrors}</pre>
+        </div>
       </div>
     </div>
   );
