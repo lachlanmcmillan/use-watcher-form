@@ -1,15 +1,13 @@
 import { useState } from 'react';
 import { DarkToggle } from './components/DarkToggle/DarkToggle';
-import { TabBar } from './components/TabBar/TabBar';
+// import { TabBar } from './components/TabBar/TabBar';
 import { Simple } from './views/Simple/Simple';
-import { SubPathArraysExample } from './views/SubPathArrays/SubPathArrays';
-import { SubPathExample } from './views/SubPath/SubPath';
 import classes from './App.module.css';
 
 const tabs: { label: string; value: string }[] = [
   { label: 'Simple', value: 'simple' },
-  { label: 'SubPath', value: 'subpath' },
-  { label: 'SubPath Arrays', value: 'subpath-arrays' },
+  // { label: 'SubPath', value: 'subpath' },
+  // { label: 'SubPath Arrays', value: 'subpath-arrays' },
 ];
 
 export const App = () => {
@@ -24,7 +22,7 @@ export const App = () => {
         A form library built on top of useWatcherMap.
       </p>
 
-      <TabBar tabs={tabs} selectedTab={tab} onChange={value => setTab(value)} />
+      {/* <TabBar tabs={tabs} selectedTab={tab} onChange={value => setTab(value)} /> */}
 
       <div className={classes.tabContent}>
         {tab === 'simple' && <Simple />}
