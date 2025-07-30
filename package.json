@@ -1,14 +1,23 @@
 {
+  "description": "A form library built on top of useWatcherMap.",
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.js",
+  "module": "dist/index.js",
   "name": "use-watcher-form",
-  "version": "1.0.0",
-  "module": "src/index.ts",
   "type": "module",
-  "private": true,
+  "types": "dist/index.d.ts",
+  "version": "1.0.0",
+
   "scripts": {
-    "build": "vite build",
+    "build-example": "vite build",
+    "build": "bun tsc -p tsconfig.build.json",
     "dev": "vite",
+    "format": "prettier --write .",
+    "prepublishOnly": "bun run build",
     "preview": "vite preview",
-    "format": "prettier --write ."
+    "test": "bun test"
   },
   "devDependencies": {
     "@testing-library/react": "^16.3.0",
@@ -25,5 +34,21 @@
     "react-dom": "^19.1.1",
     "react": "^19",
     "use-watcher-map": "^2.1.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lachlanmcmillan/use-watcher-form.git"
+  },
+  "keywords": [
+    "form",
+    "hook",
+    "react",
+    "state"
+  ],
+  "author": "Lachlan McMillan <lachlanmcmillan@users.noreply.github.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lachlanmcmillan/use-watcher-form/issues"
+  },
+  "homepage": "https://github.com/lachlanmcmillan/use-watcher-form"
 }
