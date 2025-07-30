@@ -1,0 +1,57 @@
+.root {
+  --border-color: #845ef7;
+  --background-color: #5f3dc4;
+  --handle-hover-color: #d0bfff;
+  --border-width: 5px;
+  --font-color: white;
+  --opacity: 0.95;
+  --font-size: 12px;
+
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
+.box {
+  background: var(--background-color);
+  opacity: var(--opacity);
+  flex: 1;
+  border-radius: 0;
+  border: var(--border-width) solid var(--border-color);
+  border-top: none;
+  font-size: var(--font-size);
+  color: var(--font-color);
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+
+  &:not(:last-child) {
+    border-right: none;
+  }
+}
+
+.group {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 0;
+}
+
+.handle {
+  background: var(--border-color);
+  height: var(--border-width);
+  width: 100%;
+  cursor: row-resize;
+
+  &:hover {
+    background-color: var(--handle-hover-color);
+  }
+}
+
+.scrollArea {
+  padding: var(--mantine-spacing-sm);
+  height: 100%;
+  overflow: auto;
+}

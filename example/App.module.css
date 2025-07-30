@@ -1,0 +1,22 @@
+.tabContent {
+  width: 762px;
+  max-width: 100%;
+  margin: 0 auto;
+  min-height: 600px;
+  position: relative;
+  padding: 20px 0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.appDescription {
+  font-size: 1rem;
+  color: var(--text-color-secondary);
+  opacity: 0.85;
+  margin-bottom: 20px;
+  max-width: 600px;
+  line-height: 1.5;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}

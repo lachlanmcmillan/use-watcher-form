@@ -1,0 +1,41 @@
+@import "../common.module.css";
+
+.required {
+  color: red;
+}
+
+.error {
+  color: red;
+  font-size: 0.8rem;
+}
+
+.label {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.input {
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+
+  transition: border-color 0.1s linear;
+
+  &:focus {
+    outline: none;
+    border-color: var(--primary-color);
+  }
+
+  &[data-error="true"] {
+    border-color: red;
+    outline: none;
+  }
+}
+
+.submitButton {
+  margin-top: 1rem;
+
+}
