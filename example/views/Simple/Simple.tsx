@@ -1,9 +1,9 @@
-import classes from "./simple.module.css";
-import { RerenderIndicator } from "../../components/RerenderIndicator/RerenderIndicator";
-import { DisplayRow } from "../../components/DisplayRow/DisplayRow";
-import { useWatcherForm } from "../../../src/useWatcherForm";
-import { useField } from "../../../src/useField";
-import { WatcherFormProvider } from "../../../src/WatcherFormProvider";
+import classes from './simple.module.css';
+import { RerenderIndicator } from '../../components/RerenderIndicator/RerenderIndicator';
+import { DisplayRow } from '../../components/DisplayRow/DisplayRow';
+import { useWatcherForm } from '../../../src/useWatcherForm';
+import { useField } from '../../../src/useField';
+import { WatcherFormProvider } from '../../../src/WatcherFormProvider';
 
 /**
  * SimpleExample - Demonstrates basic state watching with useWatcherMap
@@ -13,7 +13,7 @@ import { WatcherFormProvider } from "../../../src/WatcherFormProvider";
 
 type State = {
   name: string;
-  gender: "male" | "female" | null;
+  gender: 'male' | 'female' | null;
   address: {
     street: string;
     city: string;
@@ -26,18 +26,18 @@ type State = {
 export function Simple() {
   const form = useWatcherForm<State>({
     initialValues: {
-      name: "",
+      name: '',
       gender: null,
       address: {
-        street: "",
-        city: "",
-        state: "",
-        zip: "",
+        street: '',
+        city: '',
+        state: '',
+        zip: '',
       },
     },
-    validator: (values) => ({
-      name: values.name ? undefined : "Name is required",
-      gender: values.gender ? undefined : "Gender is required",
+    validator: values => ({
+      name: values.name ? undefined : 'Name is required',
+      gender: values.gender ? undefined : 'Gender is required',
     }),
     onSubmit: async (values, changes) => {
       console.log(values, changes);
@@ -58,8 +58,8 @@ export function Simple() {
           label="Gender"
           required
           options={[
-            { label: "Male", value: "male" },
-            { label: "Female", value: "female" },
+            { label: 'Male', value: 'male' },
+            { label: 'Female', value: 'female' },
           ]}
         />
         <TextInput path="email" label="Email" required />
@@ -94,7 +94,12 @@ const TextInput = ({
         {label}
         {required && <span className={classes.required}>*</span>}
       </label>
-      <input {...props} key={key} className={classes.input} data-error={!!error} />
+      <input
+        {...props}
+        key={key}
+        className={classes.input}
+        data-error={!!error}
+      />
       {error && <p className={classes.error}>{error}</p>}
     </div>
   );
@@ -141,13 +146,13 @@ const RadiosInput = ({
         {label}
         {required && <span className={classes.required}>*</span>}
       </label>
-      {options.map((option) => (
+      {options.map(option => (
         <label key={key}>
           {option.label}
           <input
             type="radio"
             {...props}
-            name={props["data-path"]}
+            name={props['data-path']}
             value={option.value}
             defaultChecked={props.defaultValue === option.value}
             data-error={!!error}

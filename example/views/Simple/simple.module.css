@@ -1,4 +1,4 @@
-@import "../common.module.css";
+@import '../common.module.css';
 
 .required {
   color: red;
@@ -29,7 +29,7 @@
     border-color: var(--primary-color);
   }
 
-  &[data-error="true"] {
+  &[data-error='true'] {
     border-color: red;
     outline: none;
   }
@@ -37,5 +37,4 @@
 
 .submitButton {
   margin-top: 1rem;
-
 }

@@ -1,11 +1,11 @@
-import { useCallback } from "react";
-import { useWatcherFormCtx } from "./WatcherFormCtx";
+import { useCallback } from 'react';
+import { useWatcherFormCtx } from './WatcherFormCtx';
 
 export const useField = (path: string) => {
   const form = useWatcherFormCtx();
 
   if (!form) {
-    throw new Error("useField must be used within a WatcherFormContext");
+    throw new Error('useField must be used within a WatcherFormContext');
   }
 
   const key = form.keys.usePath(path);
@@ -15,18 +15,21 @@ export const useField = (path: string) => {
   /**
    * You can pass a value, or an event.
    */
-  const onChange = useCallback((e: any) => {
-    const newValue =
-      typeof e === "object" && e !== null && "target" in e
-        ? e.target.value
-        : e;
+  const onChange = useCallback(
+    (e: any) => {
+      const newValue =
+        typeof e === 'object' && e !== null && 'target' in e
+          ? e.target.value
+          : e;
 
-    const prevHasError = !!form.errors.getPath(path);
-    form.setFieldValue(path, newValue, {
-      skipIncrementKey: true,
-      skipValidation: !prevHasError,
-    });
-  }, [path]);
+      const prevHasError = !!form.errors.getPath(path);
+      form.setFieldValue(path, newValue, {
+        skipIncrementKey: true,
+        skipValidation: !prevHasError,
+      });
+    },
+    [path]
+  );
 
   const onFocus = useCallback(() => form.touched.setPath(path, true), [path]);
 
@@ -39,6 +42,6 @@ export const useField = (path: string) => {
     onChange,
     onFocus,
     onBlur,
-    "data-path": path,
+    'data-path': path,
   };
 };

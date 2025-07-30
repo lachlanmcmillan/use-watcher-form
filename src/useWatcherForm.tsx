@@ -1,12 +1,12 @@
-import React, { useCallback, useContext } from "react";
+import React, { useCallback } from 'react';
 import {
   WatcherMapReturn,
   WatcherReturn,
   getDeepPath,
   useWatcher,
   useWatcherMap,
-} from "use-watcher-map";
-import type { PRecord, PRecordErrors, ValidationResult } from "./types";
+} from 'use-watcher-map';
+import type { PRecord, PRecordErrors, ValidationResult } from './types';
 
 export interface WatcherFormProps<T extends Record<string, any>> {
   initialValues: Partial<T>;
@@ -14,7 +14,7 @@ export interface WatcherFormProps<T extends Record<string, any>> {
   // enables the form helper when ctrl+/ keys are pressed
   debug?: boolean;
   // @todo rename this
-  resetOnInitialValuesChange?: "No" | "Always" | "OnlyIfClean";
+  resetOnInitialValuesChange?: 'No' | 'Always' | 'OnlyIfClean';
 
   //
   onValidationErrors?: (errors: ValidationResult) => void;
@@ -60,7 +60,7 @@ export const useWatcherForm = <T extends Record<string, any>>({
   initialValues = {} as T,
   onSubmit,
   onValidationErrors,
-  resetOnInitialValuesChange = "No",
+  resetOnInitialValuesChange = 'No',
   validator,
 }: WatcherFormProps<T>): WatcherForm<T> => {
   const changes = useWatcherMap<Partial<T>>({});
@@ -117,7 +117,7 @@ export const useWatcherForm = <T extends Record<string, any>>({
     // only count truthy values
     const hasErrors =
       !!validationResult &&
-      Object.keys(validationResult).filter((key) => validationResult[key])
+      Object.keys(validationResult).filter(key => validationResult[key])
         .length > 0;
 
     errors.setState(validationResult ?? {});
@@ -138,7 +138,7 @@ export const useWatcherForm = <T extends Record<string, any>>({
       const fullResult = validator?.({
         [path]: values.getPath(path),
       } as Partial<T>);
-      const fieldResult = getDeepPath(fullResult, path.split("."));
+      const fieldResult = getDeepPath(fullResult, path.split('.'));
       if (fieldResult) {
         errors.setPath(path, fieldResult);
       } else {
@@ -214,7 +214,7 @@ export const useWatcherForm = <T extends Record<string, any>>({
 
   /**
    * Set the values of multiple fields at once
-   * 
+   *
    * eg.
    * setFieldValues(['firstName', 'John'], ['lastName', 'Smith'])
    */
@@ -244,10 +244,10 @@ export const useWatcherForm = <T extends Record<string, any>>({
   React.useEffect(() => {
     // compare references
     if (initialValues !== values.getState()) {
-      if (resetOnInitialValuesChange === "Always") {
+      if (resetOnInitialValuesChange === 'Always') {
         reset({ newValues: initialValues });
       }
-      if (resetOnInitialValuesChange === "OnlyIfClean") {
+      if (resetOnInitialValuesChange === 'OnlyIfClean') {
         const isClean = Object.keys(changes.getState()).length === 0;
         if (isClean) {
           reset({ newValues: initialValues });
