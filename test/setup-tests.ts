@@ -13,6 +13,7 @@ beforeAll(() => {
   global.document = dom.window.document;
   global.navigator = dom.window.navigator;
   global.getComputedStyle = dom.window.getComputedStyle;
+  global.localStorage = dom.window.localStorage;
 });
 
 // Clean up after all tests
@@ -25,4 +26,6 @@ afterAll(() => {
   delete global.navigator;
   // @ts-ignore
   delete global.getComputedStyle;
+  // @ts-ignore
+  delete global.localStorage;
 });
