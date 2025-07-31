@@ -1,4 +1,5 @@
 import React from 'react';
+import { createPortal } from 'react-dom';
 
 import { useWatcherFormCtx } from './WatcherFormCtx';
 import classes from './watcherFormDebugger.module.css';
@@ -89,7 +90,7 @@ export const WatcherFormDebugger = () => {
     return null;
   }
 
-  return (
+  return createPortal(
     <div
       className={classes.watcherFormDebugger}
       ref={containerRef}
@@ -109,7 +110,8 @@ export const WatcherFormDebugger = () => {
           <pre className={classes.scrollArea}>form.errors: {prettyErrors}</pre>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 
