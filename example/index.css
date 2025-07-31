@@ -20,17 +20,67 @@
   --primary-gradient: linear-gradient(90deg, #646cff 0%, #6366f1 100%);
   --hover-gradient: linear-gradient(90deg, #535bf2 0%, #4f46e5 100%);
   --primary-color: #646cff;
+  --primary-color-dark: #5145cd;
+  --primary-color-light: rgba(100, 108, 255, 0.2);
   --secondary-color: #535bf2;
+  --secondary-color-dark: #4338ca;
+  --accent-color: #9b59b6;
+  --accent-color-dark: #8e44ad;
   --heading-font: 'Outfit', 'Inter', sans-serif;
-  --border-color: rgba(0, 0, 0, 0.08);
+  
+  /* Base colors */
+  --text-color: #2c3e50;
+  --heading-color: #2c3e50;
+  --subheading-color: #34495e;
+  --label-color: #2c3e50;
+  --muted-color: #7f8c8d;
+  
+  /* Status colors */
+  --success-color: #27ae60;
+  --success-color-dark: #229954;
+  --error-color: #e74c3c;
+  --error-color-dark: #c0392b;
+  --warning-color: #f39c12;
+  --info-color: #3498db;
+  
+  /* Background colors */
+  --border-color: #e1e5e9;
   --card-bg: #ffffff;
+  --section-bg: #fafbfc;
+  --hover-bg: #f8f9fa;
+  --toolbar-bg: #f8f9fa;
+  --array-item-bg: #ffffff;
+  --render-box-bg: #ffffff;
+  --settings-bg: #ffffff;
+  --metric-bg: #f8f9fa;
+  --code-bg: #f8f9fa;
+  --performance-bg: #f1f3f4;
+  
+  /* Input colors */
+  --input-bg: #ffffff;
+  --input-border: #ddd;
+  --input-text: #2c3e50;
+  
+  /* Tag colors */
+  --tag-bg: #ecf0f1;
+  --tag-text: #2c3e50;
+  
+  /* Status background colors */
+  --success-bg: #d4edda;
+  --success-border: #c3e6cb;
+  --error-bg: #f8d7da;
+  --error-border: #f5c6cb;
+  --warning-bg: #fff3cd;
+  --warning-border: #ffeaa7;
+  
+  /* Legacy variables */
   --shadow-color: rgba(0, 0, 0, 0.05);
   --state-display-bg: rgba(100, 108, 255, 0.1);
   --state-display-color: #1a1a1a;
   --state-display-text-color: #1a1a1a;
   --todo-item-bg: rgba(100, 108, 255, 0.04);
   --todo-item-bg-alt: rgba(100, 108, 255, 0.08);
-  --display-row-bg: rgba(100, 108, 255, 0.04);
+  --display-row-bg: var(--section-bg);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -48,29 +98,75 @@
   --primary-gradient: linear-gradient(90deg, #747bff 0%, #818cf8 100%);
   --hover-gradient: linear-gradient(90deg, #6366f1 0%, #4f46e5 100%);
   --primary-color: #747bff;
+  --primary-color-dark: #6366f1;
+  --primary-color-light: rgba(116, 123, 255, 0.2);
   --secondary-color: #818cf8;
+  --secondary-color-dark: #6366f1;
+  --accent-color: #c084fc;
+  --accent-color-dark: #a855f7;
+  
+  /* Base colors */
+  --text-color: rgba(255, 255, 255, 0.9);
+  --heading-color: rgba(255, 255, 255, 0.95);
+  --subheading-color: rgba(255, 255, 255, 0.8);
+  --label-color: rgba(255, 255, 255, 0.85);
+  --muted-color: rgba(255, 255, 255, 0.5);
+  
+  /* Status colors */
+  --success-color: #34d399;
+  --success-color-dark: #10b981;
+  --error-color: #f87171;
+  --error-color-dark: #ef4444;
+  --warning-color: #fbbf24;
+  --info-color: #60a5fa;
+  
+  /* Background colors */
   --border-color: rgba(255, 255, 255, 0.08);
   --card-bg: #161618;
-  --shadow-color: rgba(0, 0, 0, 0.2);
+  --section-bg: #1a1a1c;
+  --hover-bg: rgba(255, 255, 255, 0.05);
+  --toolbar-bg: #1a1a1c;
+  --array-item-bg: #1e1e20;
+  --render-box-bg: #1e1e20;
+  --settings-bg: #1e1e20;
+  --metric-bg: #1a1a1c;
+  --code-bg: #1a1a1c;
+  --performance-bg: #161618;
+  
+  /* Input colors */
+  --input-bg: #1e1e20;
+  --input-border: rgba(255, 255, 255, 0.15);
+  --input-text: rgba(255, 255, 255, 0.9);
+  
+  /* Tag colors */
+  --tag-bg: rgba(255, 255, 255, 0.1);
+  --tag-text: rgba(255, 255, 255, 0.9);
+  
+  /* Status background colors */
+  --success-bg: rgba(52, 211, 153, 0.15);
+  --success-border: rgba(52, 211, 153, 0.3);
+  --error-bg: rgba(248, 113, 113, 0.15);
+  --error-border: rgba(248, 113, 113, 0.3);
+  --warning-bg: rgba(251, 191, 36, 0.15);
+  --warning-border: rgba(251, 191, 36, 0.3);
+  
+  /* Legacy variables */
+  --shadow-color: rgba(0, 0, 0, 0.3);
   --state-display-bg: rgba(230, 230, 250, 0.1);
   --state-display-color: #e0e0e0;
   --state-display-text-color: #e0e0e0;
   --todo-item-bg: rgba(255, 255, 255, 0.02);
   --todo-item-bg-alt: rgba(255, 255, 255, 0.04);
-  --display-row-bg: rgba(100, 108, 255, 0.04);
+  --display-row-bg: var(--section-bg);
 }
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: var(--primary-color);
   text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
-}
-
-:root[data-theme='dark'] a:hover {
-  color: #747bff;
+  color: var(--secondary-color);
 }
 
 body {
@@ -140,14 +236,10 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #fafafa;
+  background-color: var(--hover-bg);
+  color: var(--text-color);
   cursor: pointer;
   box-shadow: 0 1px 2px var(--shadow-color);
-}
-
-:root[data-theme='dark'] button {
-  background-color: #1e1e20;
-  color: rgba(255, 255, 255, 0.87);
 }
 
 button:hover {
@@ -227,7 +319,7 @@ button:focus-visible {
 
 /* Add a cool feature highlight styling */
 .displayRow {
-  background: rgba(100, 108, 255, 0.04);
+  background: var(--display-row-bg);
   border-radius: 8px;
   padding: 12px;
   margin-bottom: 8px;

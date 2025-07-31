@@ -1,18 +1,13 @@
-.stateDisplay {
-  text-align: left;
-  background-color: var(--state-display-bg);
-  padding: 10px;
-  border-radius: 8px;
-  margin: 0;
-  color: var(--state-display-text-color);
-}
-
+/* Container Styles */
 .exampleContainer {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 20px;
   background-color: transparent;
   color: inherit;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 .description {
@@ -20,25 +15,661 @@
   line-height: 1.4;
   opacity: 0.85;
   max-width: 700px;
-  margin: 0 0 10px 0;
+  margin: 0 0 20px 0;
 }
 
-.value {
+/* Form Layout */
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.formSection {
+  margin-bottom: 30px;
+  padding: 20px;
+  border: 1px solid var(--border-color, #e1e5e9);
+  border-radius: 8px;
+  background: var(--section-bg, #fafbfc);
+}
+
+.formSection h3 {
+  margin: 0 0 16px 0;
+  color: var(--heading-color, #2c3e50);
+  font-size: 1.2rem;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.subsection {
+  margin-bottom: 20px;
+}
+
+.subsection h4 {
+  margin: 0 0 12px 0;
+  font-size: 1rem;
+  color: var(--subheading-color, #34495e);
+}
+
+/* Form Input Styles */
+.formInput {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: var(--label-color, #2c3e50);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.required {
+  color: var(--error-color, #e74c3c);
   font-weight: bold;
 }
 
-.buttonContainer {
+.validating {
+  font-style: italic;
+  color: var(--primary-color, #3498db);
+  font-weight: normal;
+}
+
+.input,
+.textarea {
+  padding: 8px 12px;
+  border: 1px solid var(--input-border, #ddd);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: var(--input-bg, white);
+  color: var(--input-text, #2c3e50);
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: var(--primary-color, #3498db);
+  box-shadow: 0 0 0 2px var(--primary-color-light, rgba(52, 152, 219, 0.2));
+}
+
+.input[data-error="true"],
+.textarea[data-error="true"] {
+  border-color: var(--error-color, #e74c3c);
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.checkboxLabel {
   display: flex;
-  justify-content: center;
-  gap: 10px;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.checkboxLabel input[type="checkbox"] {
+  margin: 0;
+}
+
+.radioFieldset {
+  border: 1px solid var(--input-border, #ddd);
+  border-radius: 4px;
+  padding: 12px;
+  margin: 0;
+}
+
+.radioFieldset legend {
+  padding: 0 8px;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.radioLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.radioLabel:last-child {
+  margin-bottom: 0;
+}
+
+.checkboxGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.error {
+  color: var(--error-color, #e74c3c);
+  font-size: 0.8rem;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Button Styles */
+.formActions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-color, #e1e5e9);
+}
+
+.submitButton {
+  background: var(--primary-color, #3498db);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.submitButton:hover:not(:disabled) {
+  background: var(--primary-color-dark, #2980b9);
+}
+
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.resetButton {
+  background: transparent;
+  color: var(--text-color, #2c3e50);
+  border: 1px solid var(--border-color, #ddd);
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.resetButton:hover:not(:disabled) {
+  background: var(--hover-bg, #f8f9fa);
+  border-color: var(--primary-color, #3498db);
+}
+
+.resetButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.addButton {
+  background: var(--success-color, #27ae60);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.addButton:hover {
+  background: var(--success-color-dark, #229954);
+}
+
+.removeButton {
+  background: var(--error-color, #e74c3c);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.removeButton:hover:not(:disabled) {
+  background: var(--error-color-dark, #c0392b);
+}
+
+.removeButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.actionButton {
+  background: var(--secondary-color, #95a5a6);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.actionButton:hover {
+  background: var(--secondary-color-dark, #7f8c8d);
+}
+
+.status {
+  font-size: 0.85rem;
+  color: var(--muted-color, #7f8c8d);
+}
+
+/* Array and Dynamic Content */
+.arrayItem {
+  border: 1px solid var(--border-color, #e1e5e9);
+  border-radius: 6px;
+  padding: 16px;
+  margin-bottom: 16px;
+  background: var(--array-item-bg, white);
+}
+
+.arrayItemHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-color, #e1e5e9);
+}
+
+.arrayItemHeader h4 {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--subheading-color, #34495e);
+}
+
+.emptyState {
+  text-align: center;
+  color: var(--muted-color, #7f8c8d);
+  font-style: italic;
+  padding: 20px;
+}
+
+/* Tags and Multi-select */
+.tagsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+  min-height: 24px;
+}
+
+.tag {
+  background: var(--tag-bg, #ecf0f1);
+  color: var(--tag-text, #2c3e50);
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tagRemove {
+  background: none;
+  border: none;
+  color: var(--error-color, #e74c3c);
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0;
+  margin-left: 2px;
+}
+
+.tagInput {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.tagInput .input {
+  flex: 1;
+}
+
+.multiSelect {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid var(--input-border, #ddd);
+  border-radius: 4px;
+  padding: 12px;
+  background: var(--input-bg, white);
+}
+
+/* Toolbar and Controls */
+.toolbar {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 16px;
+  background: var(--toolbar-bg, #f8f9fa);
+  border: 1px solid var(--border-color, #e1e5e9);
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+
+.toolbarSection {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toolbarSection label {
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.toolbarSection button {
+  padding: 6px 12px;
+  border: 1px solid var(--border-color, #ddd);
+  background: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+}
+
+.toolbarSection button:hover {
+  background: var(--hover-bg, #f8f9fa);
+}
+
+.toolbarSection button.active {
+  background: var(--primary-color, #3498db);
+  color: white;
+  border-color: var(--primary-color, #3498db);
+}
+
+.quickActions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+/* State Indicators */
+.stateIndicators {
+  display: flex;
+  gap: 16px;
   margin-bottom: 20px;
   flex-wrap: wrap;
 }
 
-.buttonContainer button {
-  font-size: 0.9rem;
+.indicator {
   padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border: 1px solid;
+}
+
+.indicator.dirty {
+  background: var(--warning-bg, #fff3cd);
+  color: var(--warning-color, #856404);
+  border-color: var(--warning-border, #ffeaa7);
+}
+
+.indicator.clean {
+  background: var(--success-bg, #d4edda);
+  color: var(--success-color, #155724);
+  border-color: var(--success-border, #c3e6cb);
+}
+
+.indicator.error {
+  background: var(--error-bg, #f8d7da);
+  color: var(--error-color, #721c24);
+  border-color: var(--error-border, #f5c6cb);
+}
+
+.indicator.valid {
+  background: var(--success-bg, #d4edda);
+  color: var(--success-color, #155724);
+  border-color: var(--success-border, #c3e6cb);
+}
+
+/* Password Strength */
+.passwordStrength {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.strengthBar {
+  height: 4px;
+  border-radius: 2px;
+  flex: 1;
+  background: var(--muted-color, #ecf0f1);
+  transition: background-color 0.3s;
+}
+
+.strength0 { background: var(--error-color, #e74c3c); }
+.strength1 { background: var(--error-color, #e74c3c); }
+.strength2 { background: var(--warning-color, #f39c12); }
+.strength3 { background: var(--info-color, #3498db); }
+.strength4 { background: var(--success-color, #27ae60); }
+.strength5 { background: var(--success-color, #27ae60); }
+
+.strengthText {
+  font-size: 0.75rem;
+  font-weight: 500;
+  min-width: 60px;
+}
+
+/* Performance Section */
+.performanceControls {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 16px;
+  background: var(--performance-bg, #f1f3f4);
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+
+.controlGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.performanceActions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.testButton {
+  background: var(--accent-color, #9b59b6);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.testButton:hover {
+  background: var(--accent-color-dark, #8e44ad);
+}
+
+.performanceResult {
+  font-size: 0.8rem;
+  color: var(--success-color, #27ae60);
+  font-weight: 500;
+}
+
+.renderSection {
+  margin-bottom: 30px;
+}
+
+.renderGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+}
+
+.renderBox {
+  border: 1px solid var(--border-color, #e1e5e9);
+  border-radius: 6px;
+  padding: 16px;
+  background: var(--render-box-bg, white);
+}
+
+.renderBox h4 {
+  margin: 0 0 12px 0;
+  font-size: 0.9rem;
+}
+
+.renderBox p {
+  margin: 8px 0 0 0;
+  font-size: 0.8rem;
+  color: var(--muted-color, #7f8c8d);
+}
+
+.sampleFields {
+  margin-bottom: 30px;
+}
+
+.hint {
+  font-size: 0.85rem;
+  color: var(--info-color, #3498db);
+  font-style: italic;
+  margin-bottom: 16px;
+}
+
+.fieldGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.fieldCount {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted-color, #7f8c8d);
+  font-style: italic;
+  padding: 20px;
+  border: 2px dashed var(--border-color, #e1e5e9);
+  border-radius: 6px;
+}
+
+.metricsSection {
+  margin-top: 30px;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  font-size: 0.9rem;
+}
+
+.metrics > div {
+  padding: 8px;
+  background: var(--metric-bg, #f8f9fa);
+  border-radius: 4px;
+  border-left: 3px solid var(--primary-color, #3498db);
+}
+
+.settingsSection,
+.counterSection {
+  padding: 16px;
+  border: 1px solid var(--border-color, #e1e5e9);
+  border-radius: 6px;
+  background: var(--settings-bg, white);
+}
+
+.settingItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.settingItem:last-child {
+  margin-bottom: 0;
+}
+
+.settingItem label {
+  font-size: 0.85rem;
+  min-width: 80px;
+}
+
+.counterControls {
+  display: flex;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.counterControls button {
+  padding: 6px 12px;
+  border: 1px solid var(--border-color, #ddd);
+  background: white;
   border-radius: 4px;
   cursor: pointer;
-  white-space: nowrap;
+  transition: background-color 0.2s;
+}
+
+.counterControls button:hover {
+  background: var(--hover-bg, #f8f9fa);
+}
+
+/* State Display */
+.stateDisplay {
+  margin-top: 20px;
+}
+
+.stateDisplay pre {
+  background: var(--code-bg, #f8f9fa);
+  padding: 16px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  overflow-x: auto;
+  border: 1px solid var(--border-color, #e1e5e9);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .toolbarSection {
+    justify-content: space-between;
+  }
+  
+  .formActions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .renderGrid {
+    grid-template-columns: 1fr;
+  }
 }
