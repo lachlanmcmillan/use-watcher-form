@@ -245,12 +245,12 @@ export const useWatcherForm = <T extends Record<string, any>>({
     // compare references
     if (initialValues !== values.getState()) {
       if (resetOnInitialValuesChange === 'Always') {
-        reset({ newValues: initialValues });
+        reset({ newValues: initialValues, forceRender: true });
       }
       if (resetOnInitialValuesChange === 'OnlyIfClean') {
         const isClean = Object.keys(changes.getState()).length === 0;
         if (isClean) {
-          reset({ newValues: initialValues });
+          reset({ newValues: initialValues, forceRender: true });
         }
       }
     }
