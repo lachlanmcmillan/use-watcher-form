@@ -1,10 +1,23 @@
 {
+  "name": "use-watcher-form",
   "description": "A form library built on top of useWatcherMap.",
+  "version": "1.1.1",
+  "scripts": {
+    "build-example": "vite build",
+    "build:clean": "rm -rf dist",
+    "build:css": "postcss \"src/**/*.module.css\" --dir dist --base src",
+    "build:tsc": "bun tsc -p tsconfig.build.json",
+    "build": "bun run build:clean && bun run build:tsc && bun run build:css",
+    "dev": "vite",
+    "format": "prettier --write .",
+    "prepublishOnly": "bun run build",
+    "preview": "vite preview",
+    "test": "bun test"
+  },
   "files": [
     "dist"
   ],
   "module": "dist/index.js",
-  "name": "use-watcher-form",
   "exports": {
     ".": {
       "import": "./dist/index.js",
@@ -20,19 +33,6 @@
   ],
   "type": "module",
   "types": "dist/index.d.ts",
-  "version": "1.1.0",
-  "scripts": {
-    "build-example": "vite build",
-    "build:clean": "rm -rf dist",
-    "build:css": "postcss \"src/**/*.module.css\" --dir dist --base src",
-    "build:tsc": "bun tsc -p tsconfig.build.json",
-    "build": "bun run build:clean && bun run build:tsc && bun run build:css",
-    "dev": "vite",
-    "format": "prettier --write .",
-    "prepublishOnly": "bun run build",
-    "preview": "vite preview",
-    "test": "bun test"
-  },
   "devDependencies": {
     "@testing-library/react": "^16.3.0",
     "@types/bun": "latest",
