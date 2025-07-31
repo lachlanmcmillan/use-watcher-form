@@ -3,18 +3,18 @@
   "workspaces": {
     "": {
       "name": "use-watcher-form",
-      "dependencies": {
-        "postcss": "^8.5.6",
-        "postcss-cli": "^11.0.1",
-        "postcss-modules": "^6.0.1",
-      },
       "devDependencies": {
         "@testing-library/react": "^16.3.0",
         "@types/bun": "latest",
         "@types/react": "^19.1.9",
         "@vitejs/plugin-react": "^4.7.0",
         "jsdom": "^26.1.0",
+        "postcss": "^8.5.6",
+        "postcss-cli": "^11.0.1",
+        "postcss-modules": "^6.0.1",
         "prettier": "^3.6.2",
+        "react": "^19",
+        "react-dom": "^19.1.1",
         "typescript": "^5",
         "use-watcher-map": "^2.1.0",
         "vite": "^7.0.6",
