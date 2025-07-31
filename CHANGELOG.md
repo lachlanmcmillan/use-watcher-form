@@ -1,8 +1,13 @@
 # CHANGELOG
 
+## 1.1.2
+
+- Fix debugger rendering issues by moving it within a portal
+- Fix peerDependencies
+
 ## 1.1.1
 
-- fix not-rerendering on initial values change
+- Fix not-rerendering on initial values change
 
 ## 1.1.0
 
