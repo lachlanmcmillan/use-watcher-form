@@ -156,7 +156,10 @@ export const useWatcherForm = <T extends Record<string, any>>({
    * Validate the form, trigger the submit handler, call onSubmitSuccess
    * or onSubmitError
    */
-  const submit = useCallback(async () => {
+  const submit = useCallback(async (e?: any) => {
+    // prevent the browser making it's own POST request 
+    e?.preventDefault?.();
+
     if (isSubmitting.getState()) return;
 
     if (!onSubmit) return;
