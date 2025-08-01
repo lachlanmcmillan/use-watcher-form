@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 1.1.3
+
+- Fix browser form submission when useWatcherForm is used in conjunction
+  with a <form> element.
+
 ## 1.1.2
 
 - Fix debugger rendering issues by moving it within a portal
