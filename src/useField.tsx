@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import { useWatcherFormCtx } from './WatcherFormCtx';
 
 export interface Field {
@@ -18,46 +17,61 @@ export interface Field {
   'data-path': string;
 }
 
+/**
+ * A simple helper for setting up a form field
+ */
 export const useField = (path: string): Field => {
   const form = useWatcherFormCtx();
-
   if (!form) {
     throw new Error('useField must be used within a WatcherFormContext');
   }
 
-  // subscribe to these paths, if they change then the parent component will
-  // rerender
-  const key = form.keys.usePath(path);
-  const error = form.errors.usePath(path);
-  // changeing the value will not cause a rerender (getPath vs usePath)
+  // changing the value will not cause a render (getPath vs usePath)
   const defaultValue = form.values.getPath(path);
 
-  const onChange = useCallback(
-    (e: any) => {
-      const newValue =
-        typeof e === 'object' && e !== null && 'target' in e
-          ? e.target.value
-          : e;
+  // subscribe to these paths, if they change then the parent component will
+  // render
+  const key = form.keys.usePath(path);
+  const error = form.errors.usePath(path);
 
-      // only revalidate the field onChange if the input is already in an error 
-      // state, otherwise validate onBlur.
-      const prevHasError = !!form.errors.getPath(path);
-      form.setFieldValue(path, newValue, {
-        skipIncrementKey: true,
-        skipValidation: !prevHasError,
-      });
-    },
-    [path]
-  );
-
-  const onFocus = useCallback(() => form.touched.setPath(path, true), [path]);
-
-  const onBlur = useCallback(() => form.validateField(path), [path]);
+  const { onChange, onFocus, onBlur } = form.getInputEventHandlers(path);
 
   return {
     key,
     error,
     defaultValue,
+    onChange,
+    onFocus,
+    onBlur,
+    'data-path': path,
+  };
+};
+
+export interface ControlledField extends Omit<Field, 'defaultValue'> {
+  value: any;
+}
+
+/**
+ * A controlled field will render when the form value changes
+ */
+export const useControlledField = (path: string): ControlledField => {
+  const form = useWatcherFormCtx();
+  if (!form) {
+    throw new Error('useField must be used within a WatcherFormContext');
+  }
+
+  // subscribe to these paths, if they change then the parent component will
+  // render
+  const value = form.values.usePath(path);
+  const key = form.keys.usePath(path);
+  const error = form.errors.usePath(path);
+
+  const { onChange, onFocus, onBlur } = form.getInputEventHandlers(path);
+
+  return {
+    key,
+    error,
+    value,
     onChange,
     onFocus,
     onBlur,

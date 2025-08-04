@@ -49,6 +49,11 @@ export interface WatcherForm<T extends Record<string, any>> {
   // helpers
   debug: boolean;
   initialValues: Partial<T>;
+  getInputEventHandlers: (path: string) => {
+    onChange: (e: any) => void;
+    onFocus: () => void;
+    onBlur: () => void;
+  };
 }
 
 /**
@@ -156,34 +161,37 @@ export const useWatcherForm = <T extends Record<string, any>>({
    * Validate the form, trigger the submit handler, call onSubmitSuccess
    * or onSubmitError
    */
-  const submit = useCallback(async (e?: any) => {
-    // prevent the browser making it's own POST request 
-    e?.preventDefault?.();
+  const submit = useCallback(
+    async (e?: any) => {
+      // prevent the browser making it's own POST request
+      e?.preventDefault?.();
 
-    if (isSubmitting.getState()) return;
+      if (isSubmitting.getState()) return;
 
-    if (!onSubmit) return;
+      if (!onSubmit) return;
 
-    // validate the form
-    const result = validateAll();
-    if (result.hasErrors) {
-      onValidationErrors?.(result.errors);
-      return;
-    }
+      // validate the form
+      const result = validateAll();
+      if (result.hasErrors) {
+        onValidationErrors?.(result.errors);
+        return;
+      }
 
-    const valuesData = values.getState();
-    const changesData = changes.getState();
+      const valuesData = values.getState();
+      const changesData = changes.getState();
 
-    isSubmitting.setState(true);
+      isSubmitting.setState(true);
 
-    // errors should be caught in the submit function and returned
-    // as a result type
-    const response = await onSubmit(valuesData, changesData);
+      // errors should be caught in the submit function and returned
+      // as a result type
+      const response = await onSubmit(valuesData, changesData);
 
-    isSubmitting.setState(false);
+      isSubmitting.setState(false);
 
-    return response;
-  }, [onSubmit]);
+      return response;
+    },
+    [onSubmit]
+  );
 
   const incrementKey = useCallback(
     (path: string) => {
@@ -242,6 +250,31 @@ export const useWatcherForm = <T extends Record<string, any>>({
   );
 
   /**
+   * Get the event handlers for an input field, onChange, onBlur, onFocus
+   */
+  const getInputEventHandlers = useCallback(
+    (path: string) => ({
+      onChange: (e: any) => {
+        const newValue =
+          typeof e === 'object' && e !== null && 'target' in e
+            ? e.target.value
+            : e;
+
+        // only revalidate the field onChange if the input is already in an error
+        // state, otherwise validate onBlur.
+        const prevHasError = !!errors.getPath(path);
+        setFieldValue(path, newValue, {
+          skipIncrementKey: true,
+          skipValidation: !prevHasError,
+        });
+      },
+      onFocus: () => touched.setPath(path, true),
+      onBlur: () => validateField(path),
+    }),
+    []
+  );
+
+  /**
    * Update the form when initial values is changed
    */
   React.useEffect(() => {
@@ -279,5 +312,6 @@ export const useWatcherForm = <T extends Record<string, any>>({
     // helpers
     debug,
     initialValues: initialValuesCopy.getState(),
+    getInputEventHandlers,
   };
 };
