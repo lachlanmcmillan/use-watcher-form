@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 1.2.0
+
+- Add useControlledField hook
+- Move the event handler functions into form.getInputEventHandlers
+
 ## 1.1.3
 
 - Fix browser form submission when useWatcherForm is used in conjunction
