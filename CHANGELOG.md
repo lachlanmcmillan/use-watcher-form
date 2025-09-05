@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.3.0
+
+- update to use-watcher-map v5.0.0
+
 ## 1.2.0
 
 - Add useControlledField hook

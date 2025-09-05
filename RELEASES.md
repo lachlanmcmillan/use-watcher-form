@@ -6,3 +6,6 @@ How to release
 - update the version in package.json
 - bun run build
 - npm publish
+- create a release on github
+
+
