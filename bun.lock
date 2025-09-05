@@ -17,13 +17,12 @@
         "react": "^19",
         "react-dom": "^19.1.1",
         "typescript": "^5",
-        "use-watcher-map": "^2.1.0",
         "vite": "^7.0.6",
       },
       "peerDependencies": {
         "react": "^19",
-        "react-dom": "^19.1.1",
-        "use-watcher-map": "^2.1.0",
+        "react-dom": "^19",
+        "use-watcher-map": "^5",
       },
     },
   },
@@ -436,7 +435,7 @@
 
     "update-browserslist-db": ["update-browserslist-db@1.1.3", "", { "dependencies": { "escalade": "^3.2.0", "picocolors": "^1.1.1" }, "peerDependencies": { "browserslist": ">= 4.21.0" }, "bin": { "update-browserslist-db": "cli.js" } }, "sha512-UxhIZQ+QInVdunkDAaiazvvT/+fXL5Osr0JZlJulepYu6Jd7qJtDZjlur0emRlT71EN3ScPoE7gvsuIKKNavKw=="],
 
-    "use-watcher-map": ["use-watcher-map@2.1.0", "", { "peerDependencies": { "react": "^19.0.0", "react-dom": "^19.0.0" } }, "sha512-YIpGst4+EUwXXSdfqrsd8/C9aW9hMGCqWHAThwLsdm76qMPKEmtgi8u6YaT8wCTMlTwXxzSeZQjP4bdgN7VxjQ=="],
+    "use-watcher-map": ["use-watcher-map@5.0.0", "", { "peerDependencies": { "react": "^19.0.0", "react-dom": "^19.0.0" } }, "sha512-RIKC4f2aclyaoPOO6iwhKDjeNL2E1EFtgRVMRatr5PohfMLigIPyL6NgmeJ9pr89Vbm/La+Tms0lys19LPRVrg=="],
 
     "util-deprecate": ["util-deprecate@1.0.2", "", {}, "sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw=="],
 

@@ -1,10 +1,11 @@
+import { ValidationResult } from './types';
 import { useWatcherFormCtx } from './WatcherFormCtx';
 
 export interface Field {
   /** the key is used to force rerenders */
-  key: string;
+  key: number | undefined;
   /** the error message for the field, technically */
-  error?: string | null;
+  error?: ValidationResult;
   /** the default value for the field */
   defaultValue: any;
   /** the onChange handler for the field */

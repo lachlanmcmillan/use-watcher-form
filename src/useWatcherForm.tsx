@@ -1,7 +1,8 @@
 import React, { useCallback } from 'react';
 import {
-  WatcherMapReturn,
-  WatcherReturn,
+  PathOf,
+  WatcherMap,
+  WatcherPrimitive,
   getDeepPath,
   useWatcher,
   useWatcherMap,
@@ -23,33 +24,33 @@ export interface WatcherFormProps<T extends Record<string, any>> {
 
 export interface WatcherForm<T extends Record<string, any>> {
   // watchers
-  values: WatcherMapReturn<Partial<T>>;
-  changes: WatcherMapReturn<Partial<T>>;
-  errors: WatcherMapReturn<PRecordErrors<T>>;
-  keys: WatcherMapReturn<PRecord<T, number>>;
-  touched: WatcherMapReturn<PRecord<T, boolean>>;
-  isSubmitting: WatcherReturn<boolean>;
-  formKey: WatcherReturn<number>;
+  values: WatcherMap<Partial<T>>;
+  changes: WatcherMap<Partial<T>>;
+  errors: WatcherMap<PRecordErrors<T>>;
+  keys: WatcherMap<PRecord<T, number>>;
+  touched: WatcherMap<PRecord<T, boolean>>;
+  isSubmitting: WatcherPrimitive<boolean>;
+  formKey: WatcherPrimitive<number>;
 
   // actions
   submit: () => void;
   reset: (opts?: { newValues?: Partial<T>; forceRender?: boolean }) => void;
   setFieldValue: (
-    path: string,
+    path: PathOf<Partial<T>>,
     value: any,
     opts?: { skipValidation?: boolean; skipIncrementKey?: boolean }
   ) => void;
-  setFieldValues: (newValues: [path: string, value: any][]) => void;
-  validateField: (path: string) => string | undefined;
+  setFieldValues: (newValues: [path: PathOf<Partial<T>>, value: any][]) => void;
+  validateField: (path: PathOf<Partial<T>>) => string | undefined;
   validateAll: () => {
     errors?: PRecordErrors<T>;
     hasErrors: boolean;
   };
-  incrementKey: (path: string) => void;
+  incrementKey: (path: PathOf<PRecord<T, number>>) => void;
   // helpers
   debug: boolean;
   initialValues: Partial<T>;
-  getInputEventHandlers: (path: string) => {
+  getInputEventHandlers: (path: PathOf<Partial<T>>) => {
     onChange: (e: any) => void;
     onFocus: () => void;
     onBlur: () => void;
@@ -141,14 +142,14 @@ export const useWatcherForm = <T extends Record<string, any>>({
   const validateField = useCallback(
     (path: string): string | undefined => {
       const fullResult = validator?.({
-        [path]: values.getPath(path),
+        [path]: values.getPath(path as PathOf<Partial<T>>),
       } as Partial<T>);
       const fieldResult = getDeepPath(fullResult, path.split('.'));
       if (fieldResult) {
-        errors.setPath(path, fieldResult);
+        errors.setPath(path as any, fieldResult);
       } else {
         // remove any errors for this field
-        errors.clearPath(path, true);
+        errors.clearPath(path as any, true);
       }
       return fieldResult;
     },
@@ -195,11 +196,11 @@ export const useWatcherForm = <T extends Record<string, any>>({
 
   const incrementKey = useCallback(
     (path: string) => {
-      const current = keys.getPath(path);
+      const current = keys.getPath(path as PathOf<PRecord<T, number>>);
       if (!current) {
-        keys.setPath(path, 1);
+        keys.setPath(path as any, 1);
       } else {
-        keys.setPath(path, current + 1);
+        keys.setPath(path as any, current + 1);
       }
     },
     [keys]
@@ -214,11 +215,11 @@ export const useWatcherForm = <T extends Record<string, any>>({
       value: any,
       opts?: { skipValidation?: boolean; skipIncrementKey?: boolean }
     ) => {
-      changes.setPath(path, value);
-      values.setPath(path, value);
+      changes.setPath(path as PathOf<Partial<T>>, value);
+      values.setPath(path as PathOf<Partial<T>>, value);
       if (!opts?.skipValidation) validateField(path);
       // increment the key to re-render the component
-      if (!opts?.skipIncrementKey) incrementKey(path);
+      if (!opts?.skipIncrementKey) incrementKey(path as any);
     },
     []
   );
@@ -233,17 +234,17 @@ export const useWatcherForm = <T extends Record<string, any>>({
     (newValues: [path: string, value: any][]) => {
       changes.batch(() => {
         for (const item of newValues) {
-          changes.setPath(item[0], item[1]);
+          changes.setPath(item[0] as any, item[1]);
         }
       });
       values.batch(() => {
         for (const item of newValues) {
-          values.setPath(item[0], item[1]);
+          values.setPath(item[0] as any, item[1]);
         }
       });
       // increment all of the associated keys
       for (const item of newValues) {
-        incrementKey(item[0]);
+        incrementKey(item[0] as any);
       }
     },
     []
@@ -262,13 +263,13 @@ export const useWatcherForm = <T extends Record<string, any>>({
 
         // only revalidate the field onChange if the input is already in an error
         // state, otherwise validate onBlur.
-        const prevHasError = !!errors.getPath(path);
+        const prevHasError = !!errors.getPath(path as any);
         setFieldValue(path, newValue, {
           skipIncrementKey: true,
           skipValidation: !prevHasError,
         });
       },
-      onFocus: () => touched.setPath(path, true),
+      onFocus: () => touched.setPath(path as any, true),
       onBlur: () => validateField(path),
     }),
     []
