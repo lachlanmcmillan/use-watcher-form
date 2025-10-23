@@ -20,7 +20,13 @@ const localStorageMock = {
   clear: jest.fn(),
 };
 
+// Set up localStorage mock on both window and global
 Object.defineProperty(window, 'localStorage', {
+  value: localStorageMock,
+  writable: true,
+});
+
+Object.defineProperty(global, 'localStorage', {
   value: localStorageMock,
   writable: true,
 });
