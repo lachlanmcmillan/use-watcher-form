@@ -206,6 +206,49 @@ describe('useWatcherForm', () => {
       expect(result.current.errors.getPath('name')).toBe('Name is required');
     });
 
+    test('validates single field with a deep path', () => {
+      const validator = jest.fn((values: Partial<TestFormData>) => {
+        if (!('address' in values)) {
+          return {
+            address: 'address is required',
+          };
+        }
+        if (!('street' in values?.address!)) {
+          return {
+            address: {
+              street: 'address.street is required',
+            },
+          };
+        }
+        if (typeof values.address !== 'string') {
+          return {
+            address: {
+              street: 'address.street value is invalid',
+            },
+          };
+        }
+        return {};
+      });
+      const { result } = renderHook(() =>
+        useWatcherForm({
+          initialValues: {
+            address: {
+              street: 999 as any,
+            } as any,
+          },
+          validator,
+        })
+      );
+
+      let fieldError: string | undefined;
+      act(() => {
+        fieldError = result.current.validateField('address.street');
+      });
+
+      expect(fieldError).toBe('address.street value is invalid');
+      expect(result.current.errors.getPath('address.street' as any)).toBe('address.street value is invalid');
+    });
+
     test('clears error when field becomes valid', () => {
       const validator = jest.fn((values: Partial<TestFormData>) => ({
         name: values.name ? undefined : 'Name is required',

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import {
   PathOf,
   WatcherMap,
@@ -123,8 +123,9 @@ export const useWatcherForm = <T extends Record<string, any>>({
     // only count truthy values
     const hasErrors =
       !!validationResult &&
-      Object.keys(validationResult).filter(key => validationResult[key])
-        .length > 0;
+      Object.keys(validationResult).filter(
+        key => validationResult[key as keyof typeof validationResult]
+      ).length > 0;
 
     errors.setState(validationResult ?? {});
 
@@ -138,12 +139,12 @@ export const useWatcherForm = <T extends Record<string, any>>({
    * Validate a single field.
    *
    * Sets the errors object, and also returns the error
+   *
+   * @note - the path can be segmented eg. a.b.c
    */
   const validateField = useCallback(
     (path: string): string | undefined => {
-      const fullResult = validator?.({
-        [path]: values.getPath(path as PathOf<Partial<T>>),
-      } as Partial<T>);
+      const fullResult = validator?.(values.getState());
       const fieldResult = getDeepPath(fullResult, path.split('.'));
       if (fieldResult) {
         errors.setPath(path as any, fieldResult);
@@ -278,7 +279,7 @@ export const useWatcherForm = <T extends Record<string, any>>({
   /**
    * Update the form when initial values is changed
    */
-  React.useEffect(() => {
+  useEffect(() => {
     // compare references
     if (initialValues !== values.getState()) {
       if (resetOnInitialValuesChange === 'Always') {
