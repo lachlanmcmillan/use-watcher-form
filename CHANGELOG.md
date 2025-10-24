@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 1.3.1
+
+- Fix alidateField when the fieldname was a nested path, 
+  eg. valdiateField('a.b.c')
+
 ## 1.3.0
 
 - update to use-watcher-map v5.0.0
