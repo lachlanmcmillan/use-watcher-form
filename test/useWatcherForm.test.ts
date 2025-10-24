@@ -30,13 +30,17 @@ describe('useWatcherForm', () => {
     });
 
     test('initializes with empty object when no initial values provided', () => {
-      const { result } = renderHook(() => useWatcherForm({ initialValues: {} }));
+      const { result } = renderHook(() =>
+        useWatcherForm({ initialValues: {} })
+      );
       expect(result.current.values.getState()).toEqual({});
     });
 
     test('initializes with partial initial values', () => {
       const partialValues = { name: 'Test User' };
-      const { result } = renderHook(() => useWatcherForm({ initialValues: partialValues }));
+      const { result } = renderHook(() =>
+        useWatcherForm({ initialValues: partialValues })
+      );
       expect(result.current.values.getState()).toEqual(partialValues);
     });
 
@@ -46,13 +50,15 @@ describe('useWatcherForm', () => {
     });
 
     test('initializes with debug disabled when specified', () => {
-      const { result } = renderHook(() => useWatcherForm({ initialValues, debug: false }));
+      const { result } = renderHook(() =>
+        useWatcherForm({ initialValues, debug: false })
+      );
       expect(result.current.debug).toBe(false);
     });
 
     test('initializes with correct default states for all watchers', () => {
       const { result } = renderHook(() => useWatcherForm({ initialValues }));
-      
+
       expect(result.current.changes.getState()).toEqual({});
       expect(result.current.errors.getState()).toEqual({});
       expect(result.current.touched.getState()).toEqual({});
@@ -86,8 +92,12 @@ describe('useWatcherForm', () => {
         result.current.setFieldValue('address.street', '456 Oak Ave');
       });
 
-      expect(result.current.values.getPath('address.street')).toBe('456 Oak Ave');
-      expect(result.current.changes.getPath('address.street')).toBe('456 Oak Ave');
+      expect(result.current.values.getPath('address.street')).toBe(
+        '456 Oak Ave'
+      );
+      expect(result.current.changes.getPath('address.street')).toBe(
+        '456 Oak Ave'
+      );
     });
 
     test('increments key by default', () => {
@@ -104,7 +114,9 @@ describe('useWatcherForm', () => {
       const { result } = renderHook(() => useWatcherForm({ initialValues }));
 
       act(() => {
-        result.current.setFieldValue('name', 'Jane Doe', { skipIncrementKey: true });
+        result.current.setFieldValue('name', 'Jane Doe', {
+          skipIncrementKey: true,
+        });
       });
 
       expect(result.current.keys.getPath('name')).toBeUndefined();
@@ -112,7 +124,9 @@ describe('useWatcherForm', () => {
 
     test('validates field by default', () => {
       const validator = jest.fn().mockReturnValue({ name: 'Name is required' });
-      const { result } = renderHook(() => useWatcherForm({ initialValues, validator }));
+      const { result } = renderHook(() =>
+        useWatcherForm({ initialValues, validator })
+      );
 
       act(() => {
         result.current.setFieldValue('name', '');
@@ -124,7 +138,9 @@ describe('useWatcherForm', () => {
 
     test('skips validation when specified', () => {
       const validator = jest.fn().mockReturnValue({ name: 'Name is required' });
-      const { result } = renderHook(() => useWatcherForm({ initialValues, validator }));
+      const { result } = renderHook(() =>
+        useWatcherForm({ initialValues, validator })
+      );
 
       act(() => {
         result.current.setFieldValue('name', '', { skipValidation: true });
@@ -180,7 +196,9 @@ describe('useWatcherForm', () => {
       const validator = jest.fn((values: Partial<TestFormData>) => ({
         name: values.name ? undefined : 'Name is required',
       }));
-      const { result } = renderHook(() => useWatcherForm({ initialValues, validator }));
+      const { result } = renderHook(() =>
+        useWatcherForm({ initialValues, validator })
+      );
 
       let fieldError: string | undefined;
       act(() => {
@@ -195,7 +213,9 @@ describe('useWatcherForm', () => {
       const validator = jest.fn((values: Partial<TestFormData>) => ({
         name: values.name ? undefined : 'Name is required',
       }));
-      const { result } = renderHook(() => useWatcherForm({ initialValues: {}, validator }));
+      const { result } = renderHook(() =>
+        useWatcherForm({ initialValues: {}, validator })
+      );
 
       let fieldError: string | undefined;
       act(() => {
@@ -246,14 +266,18 @@ describe('useWatcherForm', () => {
       });
 
       expect(fieldError).toBe('address.street value is invalid');
-      expect(result.current.errors.getPath('address.street' as any)).toBe('address.street value is invalid');
+      expect(result.current.errors.getPath('address.street' as any)).toBe(
+        'address.street value is invalid'
+      );
     });
 
     test('clears error when field becomes valid', () => {
       const validator = jest.fn((values: Partial<TestFormData>) => ({
         name: values.name ? undefined : 'Name is required',
       }));
-      const { result } = renderHook(() => useWatcherForm({ initialValues: {}, validator }));
+      const { result } = renderHook(() =>
+        useWatcherForm({ initialValues: {}, validator })
+      );
 
       // First set an error
       act(() => {
@@ -283,7 +307,9 @@ describe('useWatcherForm', () => {
   describe('validateAll', () => {
     test('validates all fields with no errors', () => {
       const validator = jest.fn(() => ({}));
-      const { result } = renderHook(() => useWatcherForm({ initialValues, validator }));
+      const { result } = renderHook(() =>
+        useWatcherForm({ initialValues, validator })
+      );
 
       let validationResult: any;
       act(() => {
@@ -300,7 +326,9 @@ describe('useWatcherForm', () => {
         email: 'Invalid email format',
       };
       const validator = jest.fn(() => validationErrors);
-      const { result } = renderHook(() => useWatcherForm({ initialValues, validator }));
+      const { result } = renderHook(() =>
+        useWatcherForm({ initialValues, validator })
+      );
 
       let validationResult: any;
       act(() => {
@@ -331,7 +359,9 @@ describe('useWatcherForm', () => {
         age: null, // valid (null is considered no error)
       };
       const validator = jest.fn(() => validationErrors);
-      const { result } = renderHook(() => useWatcherForm({ initialValues, validator }));
+      const { result } = renderHook(() =>
+        useWatcherForm({ initialValues, validator })
+      );
 
       let validationResult: any;
       act(() => {
@@ -345,11 +375,13 @@ describe('useWatcherForm', () => {
   describe('submit', () => {
     test('successful submission with valid form', async () => {
       const onSubmit = jest.fn().mockResolvedValue({ success: true });
-      const { result } = renderHook(() => useWatcherForm({ 
-        initialValues, 
-        onSubmit,
-        validator: () => ({}) // no errors
-      }));
+      const { result } = renderHook(() =>
+        useWatcherForm({
+          initialValues,
+          onSubmit,
+          validator: () => ({}), // no errors
+        })
+      );
 
       let submitResult: any;
       await act(async () => {
@@ -362,14 +394,20 @@ describe('useWatcherForm', () => {
     });
 
     test('prevents submission when already submitting', async () => {
-      const onSubmit = jest.fn().mockImplementation(() => new Promise(resolve => setTimeout(resolve, 100)));
-      const { result } = renderHook(() => useWatcherForm({ initialValues, onSubmit }));
+      const onSubmit = jest
+        .fn()
+        .mockImplementation(
+          () => new Promise(resolve => setTimeout(resolve, 100))
+        );
+      const { result } = renderHook(() =>
+        useWatcherForm({ initialValues, onSubmit })
+      );
 
       // Start first submission
       act(() => {
         result.current.submit();
       });
-      
+
       expect(result.current.isSubmitting.getState()).toBe(true);
 
       // Try second submission
@@ -387,13 +425,15 @@ describe('useWatcherForm', () => {
       const validationErrors = { name: 'Name is required' };
       const validator = jest.fn(() => validationErrors);
       const onSubmit = jest.fn();
-      
-      const { result } = renderHook(() => useWatcherForm({ 
-        initialValues: {}, 
-        onSubmit,
-        validator,
-        onValidationErrors
-      }));
+
+      const { result } = renderHook(() =>
+        useWatcherForm({
+          initialValues: {},
+          onSubmit,
+          validator,
+          onValidationErrors,
+        })
+      );
 
       await act(async () => {
         await result.current.submit();
@@ -416,7 +456,9 @@ describe('useWatcherForm', () => {
 
     test('updates isSubmitting state correctly', async () => {
       const onSubmit = jest.fn().mockResolvedValue({ success: true });
-      const { result } = renderHook(() => useWatcherForm({ initialValues, onSubmit }));
+      const { result } = renderHook(() =>
+        useWatcherForm({ initialValues, onSubmit })
+      );
 
       expect(result.current.isSubmitting.getState()).toBe(false);
 
@@ -431,7 +473,9 @@ describe('useWatcherForm', () => {
 
     test('calls onSubmit with current values and changes', async () => {
       const onSubmit = jest.fn().mockResolvedValue({ success: true });
-      const { result } = renderHook(() => useWatcherForm({ initialValues, onSubmit }));
+      const { result } = renderHook(() =>
+        useWatcherForm({ initialValues, onSubmit })
+      );
 
       // Make some changes
       act(() => {
@@ -444,7 +488,11 @@ describe('useWatcherForm', () => {
       });
 
       expect(onSubmit).toHaveBeenCalledWith(
-        { ...initialValues, name: 'Changed Name', email: 'changed@example.com' },
+        {
+          ...initialValues,
+          name: 'Changed Name',
+          email: 'changed@example.com',
+        },
         { name: 'Changed Name', email: 'changed@example.com' }
       );
     });
@@ -542,30 +590,31 @@ describe('useWatcherForm', () => {
       const { result } = renderHook(() => useWatcherForm({ initialValues }));
 
       act(() => {
-        result.current.incrementKey('newField');
+        result.current.incrementKey('newField' as any);
       });
 
-      expect(result.current.keys.getPath('newField')).toBe(1);
+      expect(result.current.keys.getPath('newField' as any)).toBe(1);
     });
 
     test('handles nested paths', () => {
       const { result } = renderHook(() => useWatcherForm({ initialValues }));
 
       act(() => {
-        result.current.incrementKey('address.street');
+        result.current.incrementKey('address.street' as any);
       });
 
-      expect(result.current.keys.getPath('address.street')).toBe(1);
+      expect(result.current.keys.getPath('address.street' as any)).toBe(1);
     });
   });
 
   describe('resetOnInitialValuesChange', () => {
     test('does not reset when set to "No"', () => {
       const { result, rerender } = renderHook(
-        ({ values }) => useWatcherForm({ 
-          initialValues: values, 
-          resetOnInitialValuesChange: 'No' 
-        }),
+        ({ values }) =>
+          useWatcherForm({
+            initialValues: values,
+            resetOnInitialValuesChange: 'No',
+          }),
         { initialProps: { values: initialValues } }
       );
 
@@ -579,15 +628,18 @@ describe('useWatcherForm', () => {
 
       // Should not reset
       expect(result.current.values.getPath('name')).toBe('Changed Name');
-      expect(result.current.changes.getState()).toEqual({ name: 'Changed Name' });
+      expect(result.current.changes.getState()).toEqual({
+        name: 'Changed Name',
+      });
     });
 
     test('always resets when set to "Always"', () => {
       const { result, rerender } = renderHook(
-        ({ values }) => useWatcherForm({ 
-          initialValues: values, 
-          resetOnInitialValuesChange: 'Always' 
-        }),
+        ({ values }) =>
+          useWatcherForm({
+            initialValues: values,
+            resetOnInitialValuesChange: 'Always',
+          }),
         { initialProps: { values: initialValues } }
       );
 
@@ -597,7 +649,7 @@ describe('useWatcherForm', () => {
       });
 
       const newInitialValues = { ...initialValues, name: 'Different Name' };
-      
+
       // Change initial values
       rerender({ values: newInitialValues });
 
@@ -608,10 +660,11 @@ describe('useWatcherForm', () => {
 
     test('resets only if clean when set to "OnlyIfClean"', () => {
       const { result, rerender } = renderHook(
-        ({ values }) => useWatcherForm({ 
-          initialValues: values, 
-          resetOnInitialValuesChange: 'OnlyIfClean' 
-        }),
+        ({ values }) =>
+          useWatcherForm({
+            initialValues: values,
+            resetOnInitialValuesChange: 'OnlyIfClean',
+          }),
         { initialProps: { values: initialValues } }
       );
 
@@ -627,11 +680,13 @@ describe('useWatcherForm', () => {
       });
 
       const anotherNewValues = { ...initialValues, name: 'Another Name' };
-      
+
       // Change initial values again - should not reset because form is dirty
       rerender({ values: anotherNewValues });
       expect(result.current.values.getPath('name')).toBe('Different Name'); // Should keep previous value
-      expect(result.current.changes.getState()).toEqual({ email: 'changed@example.com' });
+      expect(result.current.changes.getState()).toEqual({
+        email: 'changed@example.com',
+      });
     });
   });
 
@@ -652,10 +707,14 @@ describe('useWatcherForm', () => {
     });
 
     test('exposes debug flag correctly', () => {
-      const { result: resultWithDebug } = renderHook(() => useWatcherForm({ initialValues, debug: true }));
+      const { result: resultWithDebug } = renderHook(() =>
+        useWatcherForm({ initialValues, debug: true })
+      );
       expect(resultWithDebug.current.debug).toBe(true);
 
-      const { result: resultWithoutDebug } = renderHook(() => useWatcherForm({ initialValues, debug: false }));
+      const { result: resultWithoutDebug } = renderHook(() =>
+        useWatcherForm({ initialValues, debug: false })
+      );
       expect(resultWithoutDebug.current.debug).toBe(false);
     });
   });
