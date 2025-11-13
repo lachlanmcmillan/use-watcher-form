@@ -22,6 +22,10 @@ export interface WatcherFormProps<T extends Record<string, any>> {
   onSubmit?: (values: Partial<T>, changes: Partial<T>) => Promise<any>;
 }
 
+/**
+ * By default all inputs are "uncontrolled", meaning that they don't rerender
+ * on input.
+ */
 export interface WatcherForm<T extends Record<string, any>> {
   // watchers
   values: WatcherMap<Partial<T>>;
@@ -33,23 +37,73 @@ export interface WatcherForm<T extends Record<string, any>> {
   formKey: WatcherPrimitive<number>;
 
   // actions
+
+  /**
+   * Trigger the submission process.
+   *
+   * Validate the form, trigger the submit handler, call onSubmitSuccess or onSubmitError.
+   */
   submit: () => void;
+
+  /**
+   * Reset the form to the initial values, or to new values if provided.
+   *
+   * Note. because the useWatcherForm is uncontrolled, calling reset will not
+   * trigger a re-render of the form. If you need a re-render, then call
+   * the reset function with the forceRender option set to true.
+   */
   reset: (opts?: { newValues?: Partial<T>; forceRender?: boolean }) => void;
+
+  /**
+   * Manually set the value of a field.
+   */
   setFieldValue: (
     path: PathOf<Partial<T>>,
     value: any,
-    opts?: { skipValidation?: boolean; skipIncrementKey?: boolean }
+    opts?: {
+      skipValidation?: boolean;
+      skipIncrementKey?: boolean;
+      skipChanges?: boolean;
+    }
   ) => void;
+
+  /**
+   * Set the values of multiple fields at once
+   *
+   * eg.
+   * setFieldValues(['firstName', 'John'], ['lastName', 'Smith'])
+   */
   setFieldValues: (newValues: [path: PathOf<Partial<T>>, value: any][]) => void;
+
+  /**
+   * Validate a single field.
+   *
+   * Sets the errors object, and also returns the error.
+   * @note - the path can be segmented eg. a.b.c
+   */
   validateField: (path: PathOf<Partial<T>>) => string | undefined;
+
+  /**
+   * Validate all fields, and set the errors watcher.
+   * @returns Object with validation errors and a hasErrors flag.
+   */
   validateAll: () => {
     errors?: PRecordErrors<T>;
     hasErrors: boolean;
   };
+
+  /**
+   * Force a rerender of a field by incrementing an internal key.
+   */
   incrementKey: (path: PathOf<PRecord<T, number>>) => void;
+
   // helpers
   debug: boolean;
   initialValues: Partial<T>;
+
+  /**
+   * Get the event handlers for an input field, onChange, onBlur, onFocus.
+   */
   getInputEventHandlers: (path: PathOf<Partial<T>>) => {
     onChange: (e: any) => void;
     onFocus: () => void;
@@ -57,10 +111,6 @@ export interface WatcherForm<T extends Record<string, any>> {
   };
 }
 
-/**
- * By default all inputs are "uncontrolled", meaning that they don't rerender
- * on input.
- */
 export const useWatcherForm = <T extends Record<string, any>>({
   debug = true,
   initialValues = {} as T,
@@ -78,13 +128,6 @@ export const useWatcherForm = <T extends Record<string, any>>({
   const isSubmitting = useWatcher(false);
   const initialValuesCopy = useWatcher<Partial<T>>(initialValues);
 
-  /**
-   * Reset the form to the initial values, or to new values if provided
-   *
-   * Note. because the useWatcherForm is uncontrolled, calling reset will not
-   * trigger a re-render of the form. If you need a re-render, then call
-   * the reset function with the forceRender option set to true.
-   */
   const reset = useCallback(
     (opts?: { newValues?: Partial<T>; forceRender?: boolean }) => {
       changes.setState({});
@@ -104,9 +147,6 @@ export const useWatcherForm = <T extends Record<string, any>>({
     [initialValues]
   );
 
-  /**
-   * validate all fields, and set the errors watcher
-   */
   const validateAll = useCallback((): {
     errors?: PRecordErrors<T>;
     hasErrors: boolean;
@@ -135,13 +175,6 @@ export const useWatcherForm = <T extends Record<string, any>>({
     };
   }, [validator, values]);
 
-  /**
-   * Validate a single field.
-   *
-   * Sets the errors object, and also returns the error
-   *
-   * @note - the path can be segmented eg. a.b.c
-   */
   const validateField = useCallback(
     (path: string): string | undefined => {
       const fullResult = validator?.(values.getState());
@@ -157,12 +190,6 @@ export const useWatcherForm = <T extends Record<string, any>>({
     [validator]
   );
 
-  /**
-   * Trigger the submission process
-   *
-   * Validate the form, trigger the submit handler, call onSubmitSuccess
-   * or onSubmitError
-   */
   const submit = useCallback(
     async (e?: any) => {
       // prevent the browser making it's own POST request
@@ -207,30 +234,28 @@ export const useWatcherForm = <T extends Record<string, any>>({
     [keys]
   );
 
-  /**
-   * Manually set the value of a field
-   */
   const setFieldValue = useCallback(
     (
       path: string,
       value: any,
-      opts?: { skipValidation?: boolean; skipIncrementKey?: boolean }
+      opts?: {
+        /** don't validate the field after setting */
+        skipValidation?: boolean;
+        /** don't increment the key to re-render the component */
+        skipIncrementKey?: boolean;
+        /** don't add the value to the changes object */
+        skipChanges?: boolean;
+      }
     ) => {
-      changes.setPath(path as PathOf<Partial<T>>, value);
       values.setPath(path as PathOf<Partial<T>>, value);
+      if (!opts?.skipChanges)
+        changes.setPath(path as PathOf<Partial<T>>, value);
       if (!opts?.skipValidation) validateField(path);
-      // increment the key to re-render the component
       if (!opts?.skipIncrementKey) incrementKey(path as any);
     },
     []
   );
 
-  /**
-   * Set the values of multiple fields at once
-   *
-   * eg.
-   * setFieldValues(['firstName', 'John'], ['lastName', 'Smith'])
-   */
   const setFieldValues = useCallback(
     (newValues: [path: string, value: any][]) => {
       changes.batch(() => {
@@ -251,9 +276,6 @@ export const useWatcherForm = <T extends Record<string, any>>({
     []
   );
 
-  /**
-   * Get the event handlers for an input field, onChange, onBlur, onFocus
-   */
   const getInputEventHandlers = useCallback(
     (path: string) => ({
       onChange: (e: any) => {
@@ -276,9 +298,6 @@ export const useWatcherForm = <T extends Record<string, any>>({
     []
   );
 
-  /**
-   * Update the form when initial values is changed
-   */
   useEffect(() => {
     // compare references
     if (initialValues !== values.getState()) {
@@ -315,5 +334,5 @@ export const useWatcherForm = <T extends Record<string, any>>({
     debug,
     initialValues: initialValuesCopy.getState(),
     getInputEventHandlers,
-  };
+  } satisfies WatcherForm<T>;
 };
