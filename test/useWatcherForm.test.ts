@@ -149,6 +149,65 @@ describe('useWatcherForm', () => {
       expect(validator).not.toHaveBeenCalled();
       expect(result.current.errors.getPath('name')).toBeUndefined();
     });
+
+    test('skips changes tracking when skipChanges is true', () => {
+      const { result } = renderHook(() => useWatcherForm({ initialValues }));
+
+      act(() => {
+        result.current.setFieldValue('name', 'Jane Doe', {
+          skipChanges: true,
+        });
+      });
+
+      // Value should be updated
+      expect(result.current.values.getState()).toEqual({
+        ...initialValues,
+        name: 'Jane Doe',
+      });
+
+      // Changes should NOT be tracked
+      expect(result.current.changes.getState()).toEqual({});
+
+      // Call again and confirm 
+      act(() => {
+        result.current.setFieldValue('name', 'Jane Doe #2');
+      });
+
+      expect(result.current.values.getState()).toEqual({
+        ...initialValues,
+        name: 'Jane Doe #2',
+      });
+
+      expect(result.current.changes.getState()).toEqual({
+        name: 'Jane Doe #2',
+      });
+
+    });
+
+    test('skipChanges does not affect other fields changes tracking', () => {
+      const { result } = renderHook(() => useWatcherForm({ initialValues }));
+
+      act(() => {
+        // Set one field with skipChanges
+        result.current.setFieldValue('name', 'Jane Doe', {
+          skipChanges: true,
+        });
+        // Set another field without skipChanges
+        result.current.setFieldValue('email', 'jane@example.com');
+      });
+
+      // Both values should be updated
+      expect(result.current.values.getState()).toEqual({
+        ...initialValues,
+        name: 'Jane Doe',
+        email: 'jane@example.com',
+      });
+
+      // Only email should be in changes (name was skipped)
+      expect(result.current.changes.getState()).toEqual({
+        email: 'jane@example.com',
+      });
+    });
   });
 
   describe('setFieldValues', () => {

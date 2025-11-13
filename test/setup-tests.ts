@@ -13,10 +13,10 @@ beforeAll(() => {
   global.document = dom.window.document;
   global.navigator = dom.window.navigator;
   global.getComputedStyle = dom.window.getComputedStyle;
-  
+
   // Set up localStorage from JSDOM by default
   global.localStorage = dom.window.localStorage;
-  
+
   // Add missing DOM event constructors
   global.KeyboardEvent = dom.window.KeyboardEvent;
   global.MouseEvent = dom.window.MouseEvent;
@@ -24,13 +24,27 @@ beforeAll(() => {
   global.CustomEvent = dom.window.CustomEvent;
   global.FocusEvent = dom.window.FocusEvent;
   global.InputEvent = dom.window.InputEvent;
-  
+
   // Add other missing DOM APIs
   global.HTMLElement = dom.window.HTMLElement;
   global.Element = dom.window.Element;
   global.Node = dom.window.Node;
   global.Range = dom.window.Range;
   global.Selection = dom.window.Selection;
+
+  // Polyfill IE-specific event methods that React DOM tries to use
+  // These are no-ops in modern browsers but React's dev mode still checks for them
+  if (
+    (dom.window.HTMLElement.prototype as any) &&
+    !(dom.window.HTMLElement.prototype as any).attachEvent
+  ) {
+    (dom.window.HTMLElement.prototype as any).attachEvent = function () {
+      // No-op: IE-specific method not needed in JSDom
+    };
+    (dom.window.HTMLElement.prototype as any).detachEvent = function () {
+      // No-op: IE-specific method not needed in JSDom
+    };
+  }
 });
 
 // Clean up after all tests
