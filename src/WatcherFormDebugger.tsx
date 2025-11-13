@@ -7,8 +7,31 @@ import classes from './watcherFormDebugger.module.css';
 const DEFAULT_HEIGHT = 350;
 
 export const WatcherFormDebugger = () => {
-  const form = useWatcherFormCtx();
   const [isOpen, setIsOpen] = React.useState(false);
+
+  // watch for the shortcut "ctrl + /" to show the debugger
+  const handleKeyDown = React.useCallback((e: KeyboardEvent) => {
+    if (e.ctrlKey && e.key === '/') {
+      setIsOpen(prev => !prev);
+    }
+  }, []);
+
+  // listen for the <ctrl> + </> key combo
+  React.useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  if (!isOpen) {
+    return null;
+  }
+
+  return <WatcherFormDebuggerInner />;
+};
+
+export const WatcherFormDebuggerInner = () => {
+  const form = useWatcherFormCtx();
   const changes = form.changes.useState();
   const errors = form.errors.useState();
   const values = form.values.useState();
@@ -22,13 +45,6 @@ export const WatcherFormDebugger = () => {
   const latestHeight = React.useRef<number>(
     getSettings()?.height ?? DEFAULT_HEIGHT
   );
-
-  // watch for the shortcut "ctrl + /" to show the debugger
-  const handleKeyDown = React.useCallback((e: KeyboardEvent) => {
-    if (e.ctrlKey && e.key === '/') {
-      setIsOpen(prev => !prev);
-    }
-  }, []);
 
   const handleMouseUp = React.useCallback(() => {
     // persist the last height value to the settings store
@@ -65,13 +81,6 @@ export const WatcherFormDebugger = () => {
     }
   }, []);
 
-  // listen for the <ctrl> + </> key combo
-  React.useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
-
   // memoise heavy JSON stringifications so they don't rerun on height-only updates
   const prettyValues = React.useMemo(
     () => JSON.stringify(values, null, 2),
@@ -85,10 +94,6 @@ export const WatcherFormDebugger = () => {
     () => JSON.stringify(errors, null, 2),
     [errors]
   );
-
-  if (!isOpen) {
-    return null;
-  }
 
   return createPortal(
     <div
