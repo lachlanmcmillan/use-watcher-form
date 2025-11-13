@@ -43,7 +43,7 @@ export interface WatcherForm<T extends Record<string, any>> {
    *
    * Validate the form, trigger the submit handler, call onSubmitSuccess or onSubmitError.
    */
-  submit: () => void;
+  submit: (e?: any) => Promise<any>;
 
   /**
    * Reset the form to the initial values, or to new values if provided.
