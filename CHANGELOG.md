@@ -1,8 +1,13 @@
 # CHANGELOG
 
+## 1.4.0
+
+- Add the `skipChanges` option to setFieldValue.
+- Fix function/type/JSDoc comments not being included in typescript types.
+
 ## 1.3.1
 
-- Fix alidateField when the fieldname was a nested path, 
+- Fix validateField when the fieldname was a nested path, 
   eg. valdiateField('a.b.c')
 
 ## 1.3.0
