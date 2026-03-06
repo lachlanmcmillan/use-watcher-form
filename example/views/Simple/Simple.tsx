@@ -1,10 +1,12 @@
 import classes from '../common.module.css';
 import { DisplayRow } from '../../components/DisplayRow/DisplayRow';
+import { CodeBlock } from '../../components/CodeBlock/CodeBlock';
 import { useWatcherForm } from '../../../src/useWatcherForm';
 import { useField } from '../../../src/useField';
 import { WatcherFormProvider } from '../../../src/WatcherFormProvider';
 import { useWatcherFormCtx } from '../../../src';
 import { RerenderIndicator } from '../../components/RerenderIndicator/RerenderIndicator';
+import source from './Simple.tsx?raw';
 
 /**
  * Simple Forms Example - Demonstrates basic form functionality
@@ -56,55 +58,61 @@ export function Simple() {
 
   return (
     <WatcherFormProvider form={form}>
-      <div className={classes.exampleContainer}>
-        <h2>Simple Forms</h2>
-        <p className={classes.description}>
-          Basic form with different field types, validation, and submission
-          handling.
-        </p>
+      <div className={classes.sideBySide}>
+        <div className={classes.exampleContainer}>
+          <h2>Simple Forms</h2>
+          <p className={classes.description}>
+            Basic form with different field types, validation, and submission
+            handling.
+          </p>
 
-        <div className={classes.formGrid}>
-          <TextInput path="firstName" label="First Name" required />
-          <TextInput path="lastName" label="Last Name" required />
-          <TextInput path="email" label="Email" type="email" required />
-          <NumberInput path="age" label="Age" required />
+          <div className={classes.formGrid}>
+            <TextInput path="firstName" label="First Name" required />
+            <TextInput path="lastName" label="Last Name" required />
+            <TextInput path="email" label="Email" type="email" required />
+            <NumberInput path="age" label="Age" required />
 
-          <SelectInput
-            path="country"
-            label="Country"
-            required
-            options={[
-              { label: 'Select a country...', value: '' },
-              { label: 'United States', value: 'us' },
-              { label: 'Canada', value: 'ca' },
-              { label: 'United Kingdom', value: 'uk' },
-              { label: 'Australia', value: 'au' },
-              { label: 'Germany', value: 'de' },
-            ]}
-          />
+            <SelectInput
+              path="country"
+              label="Country"
+              required
+              options={[
+                { label: 'Select a country...', value: '' },
+                { label: 'United States', value: 'us' },
+                { label: 'Canada', value: 'ca' },
+                { label: 'United Kingdom', value: 'uk' },
+                { label: 'Australia', value: 'au' },
+                { label: 'Germany', value: 'de' },
+              ]}
+            />
 
-          <RadioGroup
-            path="gender"
-            label="Gender"
-            options={[
-              { label: 'Male', value: 'male' },
-              { label: 'Female', value: 'female' },
-              { label: 'Other', value: 'other' },
-            ]}
-          />
+            <RadioGroup
+              path="gender"
+              label="Gender"
+              options={[
+                { label: 'Male', value: 'male' },
+                { label: 'Female', value: 'female' },
+                { label: 'Other', value: 'other' },
+              ]}
+            />
 
-          <CheckboxInput path="newsletter" label="Subscribe to newsletter" />
+            <CheckboxInput path="newsletter" label="Subscribe to newsletter" />
+          </div>
+
+          <div className={classes.formActions}>
+            <SubmitButton />
+            <ResetButton />
+            <ChangesIndicator />
+          </div>
+
+          <FormValuesDisplay />
+          <FormChangesDisplay />
+          <FormErrorsDisplay />
         </div>
 
-        <div className={classes.formActions}>
-          <SubmitButton />
-          <ResetButton />
-          <ChangesIndicator />
+        <div className={classes.sourcePanel}>
+          <CodeBlock code={source} />
         </div>
-
-        <FormValuesDisplay />
-        <FormChangesDisplay />
-        <FormErrorsDisplay />
       </div>
     </WatcherFormProvider>
   );
@@ -138,7 +146,9 @@ const TextInput = ({
           className={classes.input}
           data-error={!!error}
         />
-        {error && typeof error === 'string' && <p className={classes.error}>{error}</p>}
+        {error && typeof error === 'string' && (
+          <p className={classes.error}>{error}</p>
+        )}
       </div>
     </RerenderIndicator>
   );
@@ -174,7 +184,9 @@ const NumberInput = ({
           onChange={onChange}
           data-error={!!error}
         />
-        {error && typeof error === 'string' && <p className={classes.error}>{error}</p>}
+        {error && typeof error === 'string' && (
+          <p className={classes.error}>{error}</p>
+        )}
       </div>
     </RerenderIndicator>
   );
@@ -212,7 +224,9 @@ const SelectInput = ({
             </option>
           ))}
         </select>
-        {error && typeof error === 'string' && <p className={classes.error}>{error}</p>}
+        {error && typeof error === 'string' && (
+          <p className={classes.error}>{error}</p>
+        )}
       </div>
     </RerenderIndicator>
   );
@@ -238,7 +252,9 @@ const CheckboxInput = ({ path, label }: { path: string; label: string }) => {
           />
           {label}
         </label>
-        {error && typeof error === 'string' && <p className={classes.error}>{error}</p>}
+        {error && typeof error === 'string' && (
+          <p className={classes.error}>{error}</p>
+        )}
       </div>
     </RerenderIndicator>
   );
@@ -275,7 +291,9 @@ const RadioGroup = ({
             </label>
           ))}
         </fieldset>
-        {error && typeof error === 'string' && <p className={classes.error}>{error}</p>}
+        {error && typeof error === 'string' && (
+          <p className={classes.error}>{error}</p>
+        )}
       </div>
     </RerenderIndicator>
   );

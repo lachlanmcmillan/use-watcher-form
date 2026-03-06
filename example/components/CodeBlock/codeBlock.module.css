@@ -1,0 +1,30 @@
+.details {
+  margin-top: 1.5rem;
+}
+
+.summary {
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0.5rem 0;
+  user-select: none;
+}
+
+.codeWrapper pre {
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.fallback {
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  background: #24292e;
+  color: #e1e4e8;
+  margin: 0;
+}

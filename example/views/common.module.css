@@ -649,6 +649,38 @@
   border: 1px solid var(--border-color, #e1e5e9);
 }
 
+/* Side-by-side Layout */
+.sideBySide {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sideBySide > .exampleContainer {
+  max-width: none;
+}
+
+@media (min-width: 1400px) {
+  .sideBySide {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .sideBySide > .exampleContainer {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .sideBySide > .sourcePanel {
+    flex: 1;
+    min-width: 0;
+    position: sticky;
+    top: 20px;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+  }
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .formGrid {
