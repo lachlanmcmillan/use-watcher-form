@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.4.1
+
+- Update docs, README, and JSDoc comments for all public APIs.
+
 ## 1.4.0
 
 - Add the `skipChanges` option to setFieldValue.
