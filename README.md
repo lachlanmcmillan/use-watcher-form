@@ -2,6 +2,10 @@
 
 A high-performance React form library where inputs are **uncontrolled by default** — typing never causes rerenders. Built on [`use-watcher-map`](https://github.com/lachlanmcmillan/use-watcher-map), it uses a watcher-based reactivity system that lets you subscribe to exactly the data you need.
 
+## Live Examples
+
+[View interactive examples](https://lachlanmcmillan.github.io/use-watcher-form/)
+
 ## Install
 
 ```bash
@@ -247,103 +251,6 @@ Each watcher container (`values`, `errors`, `changes`, `touched`, `keys`) is a `
 `WatcherPrimitive<T>` (used by `isSubmitting`, `formKey`) has: `getState()`, `useState()`, `setState(data)`, `watchState(fn)`.
 
 All paths use **dot notation**: `"address.street"`, `"items.0.name"`.
-
-## Common Patterns
-
-### Checkbox
-
-Checkboxes need `e.target.checked` instead of `e.target.value`:
-
-```tsx
-const { error, key, ...props } = useField('newsletter');
-const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  props.onChange(e.target.checked);
-};
-return <input key={key} type="checkbox" {...props} onChange={onChange} />;
-```
-
-### Number Input
-
-```tsx
-const { error, key, ...props } = useField('age');
-const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  props.onChange(Number(e.target.value) || 0);
-};
-return <input key={key} type="number" {...props} onChange={onChange} />;
-```
-
-### Dynamic Arrays
-
-```tsx
-const addresses = form.values.usePath('addresses') || [];
-
-const addAddress = () => {
-  form.setFieldValue('addresses', [...addresses, { street: '', city: '' }]);
-};
-
-const removeAddress = (index: number) => {
-  form.setFieldValue('addresses', addresses.filter((_, i) => i !== index));
-};
-
-// Render with indexed paths:
-{addresses.map((_, i) => (
-  <TextInput key={i} path={`addresses.${i}.street`} />
-))}
-```
-
-### Form Reset
-
-```tsx
-// Reset to initial values (rerenders uncontrolled inputs)
-form.reset({ forceRender: true });
-
-// Reset to new values
-form.reset({ newValues: { name: 'New' }, forceRender: true });
-```
-
-### Programmatic Field Update
-
-```tsx
-// Set one field
-form.setFieldValue('email', 'new@example.com');
-
-// Set multiple fields in a batch
-form.setFieldValues([
-  ['firstName', 'Jane'],
-  ['lastName', 'Smith'],
-]);
-```
-
-### Watching for Changes
-
-```tsx
-// In a component, rerender when changes occur:
-const changes = form.changes.useState();
-const hasChanges = Object.keys(changes).length > 0;
-
-// React to a specific field change (in useEffect):
-form.values.watchPath('country', (newCountry) => {
-  console.log('Country changed to:', newCountry);
-});
-```
-
-### Submit Button with Loading State
-
-```tsx
-function SubmitButton() {
-  const form = useWatcherFormCtx();
-  const isSubmitting = form.isSubmitting.useState();
-  return (
-    <button onClick={() => form.submit()} disabled={isSubmitting}>
-      {isSubmitting ? 'Saving...' : 'Save'}
-    </button>
-  );
-}
-```
-
-## Live Examples
-
-[View interactive examples](https://lachlanmcmillan.github.io/use-watcher-form/)
 
 ## License
 
