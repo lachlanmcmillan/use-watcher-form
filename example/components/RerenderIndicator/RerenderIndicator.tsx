@@ -11,7 +11,7 @@ import classes from './rerenderIndicator.module.css';
 export const RerenderIndicator = ({
   children,
 }: {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }) => {
   const renderCount = useRef(0);
 

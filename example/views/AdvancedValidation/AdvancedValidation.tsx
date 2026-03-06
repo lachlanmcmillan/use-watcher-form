@@ -197,12 +197,16 @@ export function AdvancedValidation() {
           </button>
         </div>
 
-        <DisplayRow title="Validation Errors">
+        <DisplayRow label="Validation Errors">
           <pre>{JSON.stringify(errors, null, 2)}</pre>
         </DisplayRow>
 
-        <DisplayRow title="Form Values">
+        <DisplayRow label="Form Values">
           <pre>{JSON.stringify(form.values.useState(), null, 2)}</pre>
+        </DisplayRow>
+
+        <DisplayRow label="Form Changes">
+          <pre>{JSON.stringify(form.changes.useState(), null, 2)}</pre>
         </DisplayRow>
       </div>
     </WatcherFormProvider>
@@ -234,7 +238,7 @@ const UsernameField = ({
         data-error={!!error}
         disabled={isValidating}
       />
-      {error && <p className={classes.error}>{error}</p>}
+      {error && typeof error === 'string' && <p className={classes.error}>{error}</p>}
     </div>
   );
 };
@@ -287,7 +291,7 @@ const PasswordField = ({
           <span className={classes.strengthText}>{strength.text}</span>
         </div>
       )}
-      {error && <p className={classes.error}>{error}</p>}
+      {error && typeof error === 'string' && <p className={classes.error}>{error}</p>}
     </div>
   );
 };
@@ -322,7 +326,7 @@ const TextInput = ({
         className={classes.input}
         data-error={!!error}
       />
-      {error && <p className={classes.error}>{error}</p>}
+      {error && typeof error === 'string' && <p className={classes.error}>{error}</p>}
     </div>
   );
 };
@@ -356,7 +360,7 @@ const NumberInput = ({
         onChange={onChange}
         data-error={!!error}
       />
-      {error && <p className={classes.error}>{error}</p>}
+      {error && typeof error === 'string' && <p className={classes.error}>{error}</p>}
     </div>
   );
 };
@@ -389,7 +393,7 @@ const CheckboxInput = ({
         {label}
         {required && <span className={classes.required}>*</span>}
       </label>
-      {error && <p className={classes.error}>{error}</p>}
+      {error && typeof error === 'string' && <p className={classes.error}>{error}</p>}
     </div>
   );
 };

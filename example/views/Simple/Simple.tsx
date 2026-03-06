@@ -103,6 +103,7 @@ export function Simple() {
         </div>
 
         <FormValuesDisplay />
+        <FormChangesDisplay />
         <FormErrorsDisplay />
       </div>
     </WatcherFormProvider>
@@ -137,7 +138,7 @@ const TextInput = ({
           className={classes.input}
           data-error={!!error}
         />
-        {error && <p className={classes.error}>{error}</p>}
+        {error && typeof error === 'string' && <p className={classes.error}>{error}</p>}
       </div>
     </RerenderIndicator>
   );
@@ -173,7 +174,7 @@ const NumberInput = ({
           onChange={onChange}
           data-error={!!error}
         />
-        {error && <p className={classes.error}>{error}</p>}
+        {error && typeof error === 'string' && <p className={classes.error}>{error}</p>}
       </div>
     </RerenderIndicator>
   );
@@ -211,7 +212,7 @@ const SelectInput = ({
             </option>
           ))}
         </select>
-        {error && <p className={classes.error}>{error}</p>}
+        {error && typeof error === 'string' && <p className={classes.error}>{error}</p>}
       </div>
     </RerenderIndicator>
   );
@@ -237,7 +238,7 @@ const CheckboxInput = ({ path, label }: { path: string; label: string }) => {
           />
           {label}
         </label>
-        {error && <p className={classes.error}>{error}</p>}
+        {error && typeof error === 'string' && <p className={classes.error}>{error}</p>}
       </div>
     </RerenderIndicator>
   );
@@ -274,7 +275,7 @@ const RadioGroup = ({
             </label>
           ))}
         </fieldset>
-        {error && <p className={classes.error}>{error}</p>}
+        {error && typeof error === 'string' && <p className={classes.error}>{error}</p>}
       </div>
     </RerenderIndicator>
   );
@@ -333,6 +334,16 @@ const FormValuesDisplay = () => {
   return (
     <DisplayRow label="Form Values">
       <pre>{JSON.stringify(values, null, 2)}</pre>
+    </DisplayRow>
+  );
+};
+
+const FormChangesDisplay = () => {
+  const form = useWatcherFormCtx();
+  const changes = form.changes.useState();
+  return (
+    <DisplayRow label="Form Changes">
+      <pre>{JSON.stringify(changes, null, 2)}</pre>
     </DisplayRow>
   );
 };

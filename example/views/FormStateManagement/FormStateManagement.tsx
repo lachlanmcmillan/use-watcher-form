@@ -76,7 +76,7 @@ export function FormStateManagement() {
       description: values.description && values.description.length < 10 
         ? 'Description must be at least 10 characters' 
         : undefined,
-      price: values.price > 0 ? undefined : 'Price must be greater than 0',
+      price: (values.price ?? 0) > 0 ? undefined : 'Price must be greater than 0',
       category: values.category ? undefined : 'Please select a category',
       publishDate: values.featured && !values.publishDate 
         ? 'Featured products must have a publish date' 
@@ -96,8 +96,8 @@ export function FormStateManagement() {
   const isSubmitting = form.isSubmitting.useState();
 
   const isDirty = Object.keys(changes).length > 0;
-  const hasErrors = Object.keys(errors).filter(key => errors[key]).length > 0;
-  const touchedFields = Object.keys(touched).filter(key => touched[key]);
+  const hasErrors = Object.keys(errors).filter(key => errors[key as keyof ProductFormData]).length > 0;
+  const touchedFields = Object.keys(touched).filter(key => touched[key as keyof ProductFormData]);
 
   // Handle product switching
   const switchProduct = (index: number) => {
@@ -259,19 +259,19 @@ export function FormStateManagement() {
         </div>
 
         <div className={classes.stateDisplay}>
-          <DisplayRow title="Form Values">
+          <DisplayRow label="Form Values">
             <pre>{JSON.stringify(values, null, 2)}</pre>
           </DisplayRow>
 
-          <DisplayRow title="Changes from Initial">
+          <DisplayRow label="Changes from Initial">
             <pre>{JSON.stringify(changes, null, 2)}</pre>
           </DisplayRow>
 
-          <DisplayRow title="Touched Fields">
+          <DisplayRow label="Touched Fields">
             <pre>{JSON.stringify(touched, null, 2)}</pre>
           </DisplayRow>
 
-          <DisplayRow title="Validation Errors">
+          <DisplayRow label="Validation Errors">
             <pre>{JSON.stringify(errors, null, 2)}</pre>
           </DisplayRow>
         </div>
@@ -342,7 +342,7 @@ const TagsInput = ({ path, label }: { path: string; label: string }) => {
         </button>
       </div>
       
-      {error && <p className={classes.error}>{error}</p>}
+      {error && typeof error === 'string' && <p className={classes.error}>{error}</p>}
     </div>
   );
 };
@@ -374,7 +374,7 @@ const TextInput = ({
         className={classes.input}
         data-error={!!error}
       />
-      {error && <p className={classes.error}>{error}</p>}
+      {error && typeof error === 'string' && <p className={classes.error}>{error}</p>}
     </div>
   );
 };
@@ -403,7 +403,7 @@ const TextareaInput = ({
         rows={3}
         data-error={!!error}
       />
-      {error && <p className={classes.error}>{error}</p>}
+      {error && typeof error === 'string' && <p className={classes.error}>{error}</p>}
     </div>
   );
 };
@@ -438,7 +438,7 @@ const NumberInput = ({
         onChange={onChange}
         data-error={!!error}
       />
-      {error && <p className={classes.error}>{error}</p>}
+      {error && typeof error === 'string' && <p className={classes.error}>{error}</p>}
     </div>
   );
 };
@@ -474,7 +474,7 @@ const SelectInput = ({
           </option>
         ))}
       </select>
-      {error && <p className={classes.error}>{error}</p>}
+      {error && typeof error === 'string' && <p className={classes.error}>{error}</p>}
     </div>
   );
 };
@@ -504,7 +504,7 @@ const CheckboxInput = ({
         />
         {label}
       </label>
-      {error && <p className={classes.error}>{error}</p>}
+      {error && typeof error === 'string' && <p className={classes.error}>{error}</p>}
     </div>
   );
 };
