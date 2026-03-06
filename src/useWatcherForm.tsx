@@ -10,15 +10,54 @@ import {
 import type { PRecord, PRecordErrors, ValidationResult } from './types';
 
 export interface WatcherFormProps<T extends Record<string, any>> {
+  /** Initial values for the form. Can be a partial object. */
   initialValues: Partial<T>;
+
+  /**
+   * Synchronous validation function. Return an object keyed by field name
+   * with string error messages. Use `undefined` or `null` for valid fields.
+   * Supports nested objects matching your data shape.
+   *
+   * @example
+   * validator: (values) => ({
+   *   name: values.name ? undefined : 'Name is required',
+   *   email: /\S+@\S+/.test(values.email ?? '') ? undefined : 'Invalid email',
+   *   address: {
+   *     street: values.address?.street ? undefined : 'Street is required',
+   *   },
+   * })
+   */
   validator?: (values: Partial<T>) => PRecordErrors<T>;
-  // enables the form helper when ctrl+/ keys are pressed
+
+  /**
+   * Enable the debug overlay (toggle with Ctrl+/).
+   * Shows live form values, changes, and errors.
+   * @default true
+   */
   debug?: boolean;
-  // @todo rename this
+
+  /**
+   * Whether to reset the form when the `initialValues` prop changes (by reference).
+   * - `'No'` — never reset (default)
+   * - `'Always'` — always reset to the new initial values
+   * - `'OnlyIfClean'` — reset only if no fields have been changed
+   * @default 'No'
+   */
   resetOnInitialValuesChange?: 'No' | 'Always' | 'OnlyIfClean';
 
-  //
+  /** Called when `submit()` is blocked by validation errors. */
   onValidationErrors?: (errors: ValidationResult) => void;
+
+  /**
+   * Async submit handler. Called after successful validation.
+   * Receives all current values and only the changed fields.
+   *
+   * @example
+   * onSubmit: async (values, changes) => {
+   *   await api.updateUser(values);
+   *   return { success: true };
+   * }
+   */
   onSubmit?: (values: Partial<T>, changes: Partial<T>) => Promise<any>;
 }
 
@@ -27,13 +66,55 @@ export interface WatcherFormProps<T extends Record<string, any>> {
  * on input.
  */
 export interface WatcherForm<T extends Record<string, any>> {
-  // watchers
+  /**
+   * Current form values. A reactive WatcherMap container.
+   * - `values.getPath("field")` — read value (no rerender)
+   * - `values.usePath("field")` — read value + subscribe (triggers rerender)
+   * - `values.getState()` — get all values (no rerender)
+   * - `values.useState()` — get all values + subscribe
+   * - `values.setPath("field", value)` — set a value
+   * - Supports dot notation: `values.getPath("address.street")`
+   */
   values: WatcherMap<Partial<T>>;
+
+  /**
+   * Only the fields that have been modified since initialization or last reset.
+   * Same WatcherMap API as `values`.
+   */
   changes: WatcherMap<Partial<T>>;
+
+  /**
+   * Validation error messages per field. Values are strings (error message),
+   * `undefined`/`null` (no error), or nested objects for nested fields.
+   * Same WatcherMap API as `values`.
+   */
   errors: WatcherMap<PRecordErrors<T>>;
+
+  /**
+   * Rerender counters per field. Incremented when a field value changes
+   * programmatically. Used as the React `key` prop on uncontrolled inputs
+   * to force remount with updated `defaultValue`.
+   */
   keys: WatcherMap<PRecord<T, number>>;
+
+  /**
+   * Tracks which fields have received focus (via onFocus).
+   * Same WatcherMap API as `values`.
+   */
   touched: WatcherMap<PRecord<T, boolean>>;
+
+  /**
+   * Whether an async submission is in progress.
+   * - `isSubmitting.getState()` — read without subscribing
+   * - `isSubmitting.useState()` — read + subscribe to rerenders
+   * - `isSubmitting.setState(bool)` — set manually
+   */
   isSubmitting: WatcherPrimitive<boolean>;
+
+  /**
+   * Incremented when `reset({ forceRender: true })` is called.
+   * Used as the React `key` on WatcherFormProvider to force full form remount.
+   */
   formKey: WatcherPrimitive<number>;
 
   // actions
