@@ -12,7 +12,8 @@
     "format": "prettier --write .",
     "prepublishOnly": "bun run build",
     "preview": "vite preview",
-    "test": "bun test"
+    "test": "bun test",
+    "test:types": "bun tsc -p tsconfig.type-tests.json"
   },
   "files": [
     "dist"
@@ -43,15 +44,16 @@
     "postcss-cli": "^11.0.1",
     "postcss-modules": "^6.0.1",
     "prettier": "^3.6.2",
-    "react": "^19",
-    "react-dom": "^19.1.1",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
     "shiki": "^4.0.1",
     "typescript": "^5",
+    "use-watcher-map": "7.0.0",
     "vite": "^7.0.6"
   },
   "peerDependencies": {
-    "react-dom": "^19",
-    "react": "^19",
+    "react-dom": "^19.2.8",
+    "react": "^19.2.8",
     "use-watcher-map": "^7"
   },
   "repository": {
