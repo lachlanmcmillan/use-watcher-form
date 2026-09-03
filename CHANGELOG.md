@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 1.5.1
+
+- Fix WatcherFormProvider types widening to `any`
+- Update React peerDependencies to 19.2.8 to match use-watcher-map
+
 ## 1.5.0
 
 - Update to use-watcher-map v7.0.0
