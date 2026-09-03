@@ -52,7 +52,7 @@
   "peerDependencies": {
     "react-dom": "^19",
     "react": "^19",
-    "use-watcher-map": "^5"
+    "use-watcher-map": "^7"
   },
   "repository": {
     "type": "git",
