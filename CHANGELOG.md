@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.5.0
+
+- Update to use-watcher-map v7.0.0
+
 ## 1.4.1
 
 - Update docs, README, and JSDoc comments for all public APIs.
